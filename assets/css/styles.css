@@ -890,7 +890,7 @@ body:not(.sigil-maker-page) .app-shell {
 }
 
 .reference-card-sigil .reference-preview polyline {
-  stroke-width: 2.35;
+  stroke-width: 1.85;
 }
 
 .reference-card-header {
