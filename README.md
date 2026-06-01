@@ -44,10 +44,11 @@ The app turns a freehand spell diagram into parser output, compiled spell behavi
 ## Current Limitations
 
 - The app supports one enclosing spell ring at a time. Multiple rings are detected as unsupported.
-- The current compiler expects one primary sigil. Multiple primary sigils are detected as unsupported.
+- The compiler selects one leading sigil, then blends additional recognized sigils into a multi-element spell.
 - Recognition is based on local stroke templates, so it works best with clean, deliberate drawings.
 - The recognizer is not perfect. Some valid-looking drawings may fail to match, and some rough drawings may need to be redrawn more clearly.
 - The dictionaries only cover a small fan-made subset of sigils, signs, and observed spell ideas.
+- Multi-element output is a creative fan interpretation, weighted by recognition confidence, neatness, and sigil size.
 - The visual effects are interpretive canvas animations, not a faithful reproduction of manga or anime effects.
 - Raster images can be used as visual references, but the app cannot recover true stroke order from an image.
 - Closed but invalid diagrams may show diagnostics, but they do not fall back to another element.

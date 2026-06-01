@@ -21,7 +21,7 @@ The current structure is mostly flat because the playable slice supports one enc
 | `ring` | The detected enclosing ring, or a not-found ring object. |
 | `candidates` | Public symbol candidates created from grouped strokes. Raw stroke point arrays are omitted. |
 | `primarySigil` | Best recognized sigil used as the primary spell source, or `null`. |
-| `unsupportedMultipleSigils` | Extra recognized sigils beyond `primarySigil`. The current compiler rejects these instead of trying to mix elements. |
+| `unsupportedMultipleSigils` | Extra recognized sigils beyond `primarySigil`. Kept for backward compatibility with older diagnostics; the current compiler treats them as secondary blend sigils. |
 | `signs` | Recognized sign entries that can modify the primary sigil. |
 | `unknowns` | Candidate summaries that were not confidently recognized. |
 | `globalMetrics` | Parser-level neatness, radial symmetry, and instability estimates. |
@@ -121,7 +121,6 @@ Warnings are stable string labels intended for diagnostics and compiler decision
 - `ring_incomplete`
 - `unsupported_multiple_rings`
 - `unsupported_nested_ring`
-- `unsupported_multiple_sigils`
 - `missing_primary_sigil`
 - `center_unknown_contamination`
 - `symbol_near_layer_boundary`

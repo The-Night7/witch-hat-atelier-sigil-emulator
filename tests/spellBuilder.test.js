@@ -73,6 +73,8 @@ test("compiles prepared and active spell states without ringActivated", () => {
   assert.equal(Object.hasOwn(prepared, "motionMode"), false);
   assert.equal(Object.hasOwn(prepared, "manifestation"), false);
   assert.equal(Object.hasOwn(prepared, "directionStrength"), false);
+  assert.deepEqual(prepared.elements, ["fire"]);
+  assert.deepEqual(prepared.elementBlend.map((entry) => entry.element), ["fire"]);
   assert.equal(prepared.primaryManifestation, "aura");
   assert.deepEqual(prepared.manifestations, { aura: { strength: 1 } });
 
@@ -376,7 +378,7 @@ test("rejects unsupported multiple rings", () => {
   assert.ok(spellIR.warnings.includes(GLYPH_WARNINGS.unsupportedMultipleRings));
 });
 
-test("rejects unsupported multiple sigils", () => {
+test("composes multiple recognized sigils into an elemental blend", () => {
   const spellIR = compileSpell({
     glyphAST: {
       ...glyphAST({ ringComplete: true }),
@@ -386,16 +388,30 @@ test("rejects unsupported multiple sigils", () => {
           kind: "sigil",
           confidence: 0.87,
           element: "water",
-          strokeIds: ["s3"]
+          sizeNorm: 0.26,
+          neatness: 0.86,
+          strokeIds: ["s3"],
+          semantic: {
+            force: 0.02,
+            focus: 0.16,
+            spread: 0.04,
+            range: 0.16,
+            lifetimeBias: 0.02
+          }
         }
       ]
     },
     config: CONFIG
   });
 
-  assert.equal(spellIR.valid, false);
-  assert.equal(spellIR.active, false);
+  assert.equal(spellIR.valid, true);
+  assert.equal(spellIR.active, true);
   assert.equal(spellIR.prepared, false);
-  assert.equal(spellIR.status, "Multiple sigils detected");
-  assert.ok(spellIR.warnings.includes(GLYPH_WARNINGS.unsupportedMultipleSigils));
+  assert.equal(spellIR.status, "Active spell");
+  assert.deepEqual(spellIR.elements.sort(), ["fire", "water"]);
+  assert.equal(spellIR.elementBlend.length, 2);
+  assert.ok(spellIR.elementBlend.every((entry) => entry.weight > 0));
+  assert.ok(!spellIR.warnings.includes(GLYPH_WARNINGS.unsupportedMultipleSigils));
+  assert.ok(spellIR.signature.includes("fire"));
+  assert.ok(spellIR.signature.includes("water"));
 });

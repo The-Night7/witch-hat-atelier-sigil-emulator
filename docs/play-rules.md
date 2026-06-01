@@ -6,8 +6,9 @@ This file is the compact contract for parser, compiler, and renderer behavior. U
 
 - The ring is the spell boundary. A complete ring activates the spell; a prepared open ring can still show diagnostics.
 - Ring neatness contributes to spell quality and stability.
-- The current compiler chooses one primary sigil as the element or element variant.
-- Multiple recognized sigils are unsupported for now. The parser reports them, and the compiler rejects the spell instead of guessing how to mix elements.
+- The compiler chooses one primary sigil as the leading element or element variant.
+- Additional recognized sigils are compiled as an elemental blend instead of invalidating the spell.
+- Element blend weights come from recognition confidence, neatness, and relative sigil size. The leading sigil keeps compatibility with renderers and UI that still read a single `element`.
 - Sigil size changes effect scale. Larger sigils make larger effects, within renderer clamps.
 - Sigils can be recognized in center, middle, or outer ring layers.
 - Sigil orientation does not carry meaning for the current spell model.

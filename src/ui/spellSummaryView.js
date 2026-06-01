@@ -35,9 +35,6 @@ function closedWithoutSpellStatus(spellIR) {
   if (warnings.includes(GLYPH_WARNINGS.unsupportedMultipleRings)) {
     return "Multiple rings detected - undo or clear";
   }
-  if (warnings.includes(GLYPH_WARNINGS.unsupportedMultipleSigils)) {
-    return "Multiple sigils detected - undo or clear";
-  }
   if (
     warnings.includes(GLYPH_WARNINGS.primaryElementMissing) ||
     warnings.includes(GLYPH_WARNINGS.primaryElementUnsupported)
@@ -70,16 +67,21 @@ function formatManifestations(spellIR) {
   return manifestations.map(([id]) => id).join(", ");
 }
 
+function formatElements(spellIR) {
+  const blend = spellIR?.elementBlend ?? [];
+  if (blend.length > 1) {
+    return blend.map((entry) => `${entry.element} ${Math.round(entry.weight * 100)}%`).join(" + ");
+  }
+  return spellIR?.element ? spellIR.element : "None";
+}
+
 export function updateSummary({ elements, store, capture, pipeline, spellIR }) {
   const ringClosed = Boolean(pipeline?.ring?.complete);
   const hasUnsupportedMultipleRings = Boolean(pipeline?.ring?.unsupportedMultipleRings?.length);
-  const hasUnsupportedMultipleSigils = Boolean(pipeline?.glyphAST?.unsupportedMultipleSigils?.length);
-  const hasUnsupportedStructure = hasUnsupportedMultipleRings || hasUnsupportedMultipleSigils;
+  const hasUnsupportedStructure = hasUnsupportedMultipleRings;
   const closedWithoutSpell = ringClosed && !spellIR?.active;
   const status = hasUnsupportedMultipleRings
     ? "Multiple rings detected - undo or clear"
-    : hasUnsupportedMultipleSigils
-      ? "Multiple sigils detected - undo or clear"
     : closedWithoutSpell
       ? closedWithoutSpellStatus(spellIR)
       : spellIR?.status ?? "No ring detected";
@@ -96,7 +98,7 @@ export function updateSummary({ elements, store, capture, pipeline, spellIR }) {
     capture.setLocked(inputLocked);
   }
 
-  elements.elementValue.textContent = spellIR?.element ? spellIR.element : "None";
+  elements.elementValue.textContent = formatElements(spellIR);
   elements.manifestationValue.textContent = formatManifestations(spellIR);
   updateMeter(elements.qualityMeter, elements.qualityMeterValue, spellIR?.quality ?? 0);
   updateMeter(elements.stabilityMeter, elements.stabilityMeterValue, spellIR?.stability ?? 0);

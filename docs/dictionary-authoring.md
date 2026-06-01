@@ -30,9 +30,9 @@ The sigil and sign dictionaries define both recognition data and spell meaning. 
 
 ### Sigils
 
-Sigils define the spell's primary element or elemental variant. The current compiler selects one primary sigil and emits it as `SpellIR.element`.
+Sigils define the spell's primary element or elemental variant. The compiler selects one leading sigil for `SpellIR.element` and can blend additional recognized sigils into `SpellIR.elementBlend`.
 
-The current compiler supports one recognized sigil per spell. If the parser recognizes extra sigils, the spell compiles as unsupported until multi-element behavior is designed.
+Extra recognized sigils are secondary blend sigils. Their element semantics nudge the compiled force, focus, spread, range, lifetime, and rendered element mix.
 
 Current sigil ids:
 
@@ -169,7 +169,7 @@ This field is required for sigils. Missing or unsupported elements compile to in
 
 Multiple sigils may share one element when they represent variants.
 
-Even though sigils can be recognized in the center, middle, or outer layer, the current compiler still accepts only one primary sigil in a spell.
+Even though sigils can be recognized in the center, middle, or outer layer, the compiler still uses one center-biased leading sigil and treats extra sigils as blend contributors.
 
 ### `semantic`
 

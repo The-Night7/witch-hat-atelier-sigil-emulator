@@ -136,9 +136,6 @@ function warningList(ring, primarySigil, unsupportedMultipleSigils, unknowns, re
   if (ring.unsupportedMultipleRings?.length) {
     warnings.push(GLYPH_WARNINGS.unsupportedMultipleRings);
   }
-  if (unsupportedMultipleSigils.length) {
-    warnings.push(GLYPH_WARNINGS.unsupportedMultipleSigils);
-  }
   if (!primarySigil) {
     warnings.push(GLYPH_WARNINGS.missingPrimarySigil);
   }

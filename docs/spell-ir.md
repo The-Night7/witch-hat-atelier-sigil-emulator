@@ -31,13 +31,15 @@ There is no separate `ringActivated` field. Use `spellIR.active` for "valid spel
 
 Multiple ring candidates compile to invalid `SpellIR` with `status: "Multiple rings detected"` because the current playable slice supports one enclosing ring only.
 
-Multiple recognized sigils compile to invalid `SpellIR` with `status: "Multiple sigils detected"` because the current compiler supports one primary element only.
+Multiple recognized sigils compile to one valid `SpellIR` when every sigil maps to a supported element. `element` remains the leading element for compatibility, while `elements` and `elementBlend` describe the full mix.
 
 ## Behavior Fields
 
 | Field | Meaning | Sample values and range |
 | --- | --- | --- |
-| `element` | Supported primary effect key from the selected primary sigil. The current compiler emits one element only. | `"fire"`, `"water"`, `"wind"`, `"earth"`, `"light"`, or `null` for invalid spells. |
+| `element` | Supported primary effect key from the selected primary sigil. | `"fire"`, `"water"`, `"wind"`, `"earth"`, `"light"`, or `null` for invalid spells. |
+| `elements` | Supported element keys present in the compiled blend, strongest first. | `["fire", "water"]`; empty for invalid spells. |
+| `elementBlend` | Weighted elemental mix produced from the primary and secondary recognized sigils. | `[{ "element": "fire", "weight": 0.58 }, { "element": "water", "weight": 0.42 }]`; weights are `0..1`. |
 | `elementConfidence` | Recognition confidence for the primary element source. | `0.91`; `0..1`. |
 | `primarySizeNorm` | Primary sigil size normalized against the ring. | `0.2`; usually `0..1`. |
 | `effectScale` | Renderer scale derived from primary sigil size and config clamps. | `1.7`; currently clamped by config to `1..2.35`. |
@@ -94,7 +96,7 @@ Invalid spells keep the same top-level shape so diagnostics and renderer code ca
 - Numeric behavior fields are `0`, except neutral renderer defaults such as `effectScale` and `gravity`.
 - `warnings` contains parser warnings plus the compiler reason.
 
-Missing or unsupported primary elements compile to invalid `SpellIR` with `status: "Unsupported element"`. Multiple recognized sigils compile to invalid `SpellIR` with `status: "Multiple sigils detected"`. The renderer does not fall back to another element effect.
+Missing or unsupported sigil elements compile to invalid `SpellIR` with `status: "Unsupported element"`. Multiple recognized sigils with supported elements render as a weighted blend. The renderer does not fall back to an unsupported element effect.
 
 ## Example
 

@@ -13,6 +13,16 @@ const PRIMARY_SIGIL_AMBIGUITY_GAP = 0.05;
 
 const SUPPORTED_ELEMENTS = new Set(["fire", "water", "wind", "earth", "light"]);
 
+const ELEMENT_BLEND_TUNING = {
+  confidencePower: 1.35,
+  sizeBase: 0.55,
+  sizeScale: 1.8,
+  sizeMin: 0.45,
+  sizeMax: 1.35,
+  secondarySemanticScale: 0.72,
+  minimumWeight: 0.01
+};
+
 const SPELL_PARAMETER_TUNING = {
   focusBase: 0.46,
   focusQuality: 0.2,
@@ -53,6 +63,8 @@ function invalidSpell(status, glyphAST, warnings = []) {
     status,
     activatedAt: null,
     element: null,
+    elements: [],
+    elementBlend: [],
     elementConfidence: 0,
     primarySizeNorm: 0,
     effectScale: 1,
@@ -72,6 +84,97 @@ function invalidSpell(status, glyphAST, warnings = []) {
     warnings: combinedWarnings,
     signature: `invalid:${status}:${ringComplete}:${glyphAST.ring?.completeness ?? 0}`
   };
+}
+
+function sigilInfluence(sigil) {
+  const confidence = clamp(sigil.confidence ?? 0);
+  const neatness = clamp(sigil.neatness ?? 0.6);
+  const sizeWeight = clamp(
+    ELEMENT_BLEND_TUNING.sizeBase + (sigil.sizeNorm ?? 0) * ELEMENT_BLEND_TUNING.sizeScale,
+    ELEMENT_BLEND_TUNING.sizeMin,
+    ELEMENT_BLEND_TUNING.sizeMax
+  );
+  return Math.pow(confidence, ELEMENT_BLEND_TUNING.confidencePower) * neatness * sizeWeight;
+}
+
+function sigilElementMissing(sigil) {
+  return !sigil.element;
+}
+
+function sigilElementUnsupported(sigil) {
+  return sigil.element && !SUPPORTED_ELEMENTS.has(sigil.element);
+}
+
+function blendedSigils(glyphAST) {
+  return [glyphAST.primarySigil, ...(glyphAST.unsupportedMultipleSigils ?? [])].filter(Boolean);
+}
+
+function buildElementBlend(sigils) {
+  const grouped = new Map();
+  sigils.forEach((sigil, index) => {
+    const influence = sigilInfluence(sigil);
+    const group = grouped.get(sigil.element) ?? {
+      element: sigil.element,
+      influence: 0,
+      confidence: 0,
+      sizeNorm: 0,
+      sigilIds: [],
+      primary: false
+    };
+    group.influence += influence;
+    group.confidence += (sigil.confidence ?? 0) * influence;
+    group.sizeNorm += (sigil.sizeNorm ?? 0) * influence;
+    group.sigilIds.push(sigil.id);
+    group.primary ||= index === 0;
+    grouped.set(sigil.element, group);
+  });
+
+  const totalInfluence = [...grouped.values()].reduce((sum, group) => sum + group.influence, 0);
+  if (totalInfluence <= 0) {
+    return [];
+  }
+
+  return [...grouped.values()]
+    .map((group) => ({
+      element: group.element,
+      weight: clamp(group.influence / totalInfluence, ELEMENT_BLEND_TUNING.minimumWeight, 1),
+      confidence: group.influence > 0 ? clamp(group.confidence / group.influence) : 0,
+      sizeNorm: group.influence > 0 ? group.sizeNorm / group.influence : 0,
+      sigilIds: group.sigilIds,
+      primary: group.primary
+    }))
+    .sort((a, b) => b.weight - a.weight);
+}
+
+function blendedPrimarySemantic(sigils) {
+  const [primary, ...secondary] = sigils;
+  return secondary.reduce(
+    (semantic, sigil) => {
+      const influence = sigilInfluence(sigil) * ELEMENT_BLEND_TUNING.secondarySemanticScale;
+      const sigilSemantic = sigil.semantic ?? {};
+      return {
+        force: semantic.force + (sigilSemantic.force ?? 0) * influence,
+        focus: semantic.focus + (sigilSemantic.focus ?? 0) * influence,
+        spread: semantic.spread + (sigilSemantic.spread ?? 0) * influence,
+        range: semantic.range + (sigilSemantic.range ?? 0) * influence,
+        lifetimeBias: semantic.lifetimeBias + (sigilSemantic.lifetimeBias ?? 0) * influence
+      };
+    },
+    {
+      force: primary.semantic?.force ?? 0,
+      focus: primary.semantic?.focus ?? 0,
+      spread: primary.semantic?.spread ?? 0,
+      range: primary.semantic?.range ?? 0,
+      lifetimeBias: primary.semantic?.lifetimeBias ?? 0
+    }
+  );
+}
+
+function blendedPrimarySize(primary, elementBlend) {
+  if (!elementBlend.length) {
+    return primary.sizeNorm ?? 0;
+  }
+  return elementBlend.reduce((sum, entry) => sum + entry.sizeNorm * entry.weight, 0);
 }
 
 function calculateSpellGravity(manifestationInfluence) {
@@ -116,10 +219,6 @@ export function compileSpell({ glyphAST, config }) {
     return invalidSpell("Multiple rings detected", glyphAST, [GLYPH_WARNINGS.unsupportedMultipleRings]);
   }
 
-  if (glyphAST.unsupportedMultipleSigils?.length) {
-    return invalidSpell("Multiple sigils detected", glyphAST, [GLYPH_WARNINGS.unsupportedMultipleSigils]);
-  }
-
   const primary = glyphAST.primarySigil;
   if (!primary) {
     return invalidSpell("Invalid spell", glyphAST, [GLYPH_WARNINGS.missingPrimarySigil]);
@@ -134,14 +233,16 @@ export function compileSpell({ glyphAST, config }) {
     return invalidSpell("Ambiguous sigil", glyphAST, [GLYPH_WARNINGS.primarySigilAmbiguous]);
   }
 
-  if (!primary.element) {
+  const sigils = blendedSigils(glyphAST);
+  if (sigils.some(sigilElementMissing)) {
     return invalidSpell("Unsupported element", glyphAST, [GLYPH_WARNINGS.primaryElementMissing]);
   }
 
-  if (!SUPPORTED_ELEMENTS.has(primary.element)) {
+  if (sigils.some(sigilElementUnsupported)) {
     return invalidSpell("Unsupported element", glyphAST, [GLYPH_WARNINGS.primaryElementUnsupported]);
   }
 
+  const elementBlend = buildElementBlend(sigils);
   const signs = glyphAST.signs ?? [];
   const quality = calculateSpellQuality(glyphAST);
   const stability = calculateSpellStability(glyphAST, config);
@@ -153,9 +254,10 @@ export function compileSpell({ glyphAST, config }) {
   const signPower = signs.reduce((sum, sign) => sum + signInfluence(sign), 0);
   const active = Boolean(glyphAST.ring.complete);
   const prepared = !active;
-  const primarySemantic = primary.semantic ?? {};
+  const primarySemantic = blendedPrimarySemantic(sigils);
+  const primarySizeNorm = blendedPrimarySize(primary, elementBlend);
   const effectScale = clamp(
-    config.renderer.effectSize.baseScale + primary.sizeNorm * config.renderer.effectSize.sigilSizeInfluence,
+    config.renderer.effectSize.baseScale + primarySizeNorm * config.renderer.effectSize.sigilSizeInfluence,
     config.renderer.effectSize.minScale,
     config.renderer.effectSize.maxScale
   );
@@ -198,8 +300,10 @@ export function compileSpell({ glyphAST, config }) {
     status: active ? "Active spell" : "Prepared spell",
     activatedAt: active ? performance.now() : null,
     element: primary.element,
+    elements: elementBlend.map((entry) => entry.element),
+    elementBlend,
     elementConfidence: primary.confidence,
-    primarySizeNorm: primary.sizeNorm,
+    primarySizeNorm,
     effectScale,
     primaryManifestation,
     manifestations,
@@ -214,8 +318,8 @@ export function compileSpell({ glyphAST, config }) {
     stability,
     quality,
     neatness,
-    warnings: glyphAST.warnings ?? [],
-    signature: `${primary.id}:${manifestationSignature(manifestations)}:${active}:${Math.round(effectScale * 100)}:${Math.round(
+    warnings: (glyphAST.warnings ?? []).filter((warning) => warning !== GLYPH_WARNINGS.unsupportedMultipleSigils),
+    signature: `${elementBlend.map((entry) => `${entry.element}.${Math.round(entry.weight * 100)}`).join("+")}:${manifestationSignature(manifestations)}:${active}:${Math.round(effectScale * 100)}:${Math.round(
       force * 100
     )}:${Math.round(spread * 100)}:${Math.round(duration * 100)}:${Math.round(direction.xTiltDeg)}:${Math.round(
       direction.yTiltDeg

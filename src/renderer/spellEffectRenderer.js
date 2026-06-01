@@ -59,8 +59,37 @@ export class SpellEffectRenderer {
     this.ctx = canvas.getContext("2d");
     this.config = config;
     this.state = { particles: [] };
+    this.elementStates = new Map();
     this.lastSignature = null;
     this.lastTime = null;
+  }
+
+  resetEffectStates() {
+    resetParticleState(this.state);
+    this.elementStates.forEach((state) => resetParticleState(state));
+    this.elementStates.clear();
+  }
+
+  stateForElement(element) {
+    if (!this.elementStates.has(element)) {
+      this.elementStates.set(element, { particles: [] });
+    }
+    return this.elementStates.get(element);
+  }
+
+  activeBlend(spellIR) {
+    const blend = (spellIR?.elementBlend ?? []).filter((entry) => entry?.element && entry.weight > 0);
+    if (blend.length) {
+      return blend;
+    }
+    return spellIR?.element ? [{ element: spellIR.element, weight: 1 }] : [];
+  }
+
+  hasLiveParticles() {
+    if (this.state.particles.length) {
+      return true;
+    }
+    return [...this.elementStates.values()].some((state) => state.particles.length);
   }
 
   render(spellIR, ring, timestamp, options = {}) {
@@ -81,7 +110,7 @@ export class SpellEffectRenderer {
 
     if (this.lastSignature !== spellIR.signature) {
       this.lastSignature = spellIR.signature;
-      resetParticleState(this.state);
+      this.resetEffectStates();
     }
 
     if (!spellIR.active && options.showGuides) {
@@ -102,20 +131,26 @@ export class SpellEffectRenderer {
       return;
     }
 
-    const drawEffect = EFFECTS[spellIR.element];
-    if (!drawEffect) {
+    const blend = this.activeBlend(spellIR);
+    if (!blend.length) {
       return;
     }
 
     const emission = spellEmission(spellIR, timestamp);
-    if (emission <= 0 && !this.state.particles.length) {
+    if (emission <= 0 && !this.hasLiveParticles()) {
       return;
     }
 
-    const renderSpellIR = { ...spellIR, emission };
     ctx.save();
     ctx.globalCompositeOperation = "lighter";
-    drawEffect(ctx, this.state, renderSpellIR, ring, dt, this.config);
+    blend.forEach((entry) => {
+      const drawEffect = EFFECTS[entry.element];
+      if (!drawEffect) {
+        return;
+      }
+      const renderSpellIR = { ...spellIR, element: entry.element, emission: emission * clamp(entry.weight) };
+      drawEffect(ctx, this.stateForElement(entry.element), renderSpellIR, ring, dt, this.config);
+    });
     ctx.restore();
   }
 
