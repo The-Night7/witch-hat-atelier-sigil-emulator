@@ -4,7 +4,7 @@ A fan-made browser-based spell drawing simulator inspired by *[Witch Hat Atelier
 
 <div align="center">
   <img src="./assets/demo.gif" width="720"/>
-  <p>Try here: <a href="https://ytnrvdf.github.io/wha-spell-simulator">https://ytnrvdf.github.io/wha-spell-simulator</a></p>
+  <p>GitHub: <a href="https://github.com/The-Night7/witch-hat-atelier-sigil-emulator">https://github.com/The-Night7/witch-hat-atelier-sigil-emulator</a></p>
 </div>
 
 Video: https://youtu.be/zVWYW0K3ikg
