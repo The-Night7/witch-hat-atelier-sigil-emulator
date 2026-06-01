@@ -1,0 +1,600 @@
+[
+  {
+    "id": "fire-family",
+    "kind": "family",
+    "displayName": "Fire Spell",
+    "category": "Fire",
+    "match": { "elements": ["fire"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Spells#Fire_Spells"
+  },
+  {
+    "id": "water-family",
+    "kind": "family",
+    "displayName": "Water Spell",
+    "category": "Water",
+    "match": { "elements": ["water"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Spells#Water_Spells"
+  },
+  {
+    "id": "earth-family",
+    "kind": "family",
+    "displayName": "Earth Spell",
+    "category": "Earth",
+    "match": { "elements": ["earth"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Spells#Earth_Spells"
+  },
+  {
+    "id": "wind-family",
+    "kind": "family",
+    "displayName": "Wind Spell",
+    "category": "Wind",
+    "match": { "elements": ["wind"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Spells#Wind_Spells"
+  },
+  {
+    "id": "light-family",
+    "kind": "family",
+    "displayName": "Light Spell",
+    "category": "Light",
+    "match": { "elements": ["light"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Spells#Light_Spells"
+  },
+  {
+    "id": "flame-burst-spell",
+    "displayName": "Flame Burst Spell",
+    "category": "Fire",
+    "match": { "elements": ["fire"], "manifestations": ["column"], "signs": ["pull"], "optionalSigns": ["dispersion"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Flame_Burst_Spell"
+  },
+  {
+    "id": "flame-shot-seal",
+    "displayName": "Flame Shot Seal",
+    "category": "Fire",
+    "match": { "elements": ["fire"], "manifestations": ["column"], "signs": ["region"], "optionalSigns": ["column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Flame_Shot_Seal"
+  },
+  {
+    "id": "phantasmal-fireball",
+    "displayName": "Phantasmal Fireball",
+    "category": "Fire",
+    "match": { "elements": ["fire"], "manifestations": ["levitation"], "signs": ["float"], "optionalSigns": ["levitation"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Phantasmal_Fireball"
+  },
+  {
+    "id": "pyreball-seal",
+    "displayName": "Pyreball Seal",
+    "category": "Fire",
+    "match": { "elements": ["fire"], "manifestations": ["levitation"], "signs": ["levitation"], "optionalSigns": ["float"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Pyreball_Seal"
+  },
+  {
+    "id": "snugstone-spell",
+    "displayName": "Snugstone Spell",
+    "category": "Fire",
+    "match": { "elements": ["fire"], "manifestations": ["column"], "signs": ["radial"], "optionalSigns": ["column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Snugstone_Spell"
+  },
+  {
+    "id": "spiraling-flame",
+    "displayName": "Spiraling Flame",
+    "category": "Fire",
+    "match": { "elements": ["fire"], "manifestations": ["column"], "signs": ["sights-set"], "optionalSigns": ["sign-of-wind", "column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Spiraling_Flame"
+  },
+  {
+    "id": "purify",
+    "displayName": "Purify",
+    "category": "Water",
+    "match": { "elements": ["water"], "signs": ["purify"], "optionalSigns": ["collection", "gather"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Purify"
+  },
+  {
+    "id": "rainbringer-seal",
+    "displayName": "Rainbringer Seal",
+    "category": "Water",
+    "match": { "elements": ["water"], "signs": ["rain"], "optionalSigns": ["region"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Rainbringer_Seal"
+  },
+  {
+    "id": "rising-platform-of-water",
+    "displayName": "Rising Platform of Water",
+    "category": "Water",
+    "match": { "elements": ["water"], "manifestations": ["levitation"], "signs": ["levitation", "column"], "optionalSigns": ["convergence"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Rising_Platform_of_Water"
+  },
+  {
+    "id": "rising-wave",
+    "displayName": "Rising Wave",
+    "category": "Water",
+    "match": { "elements": ["water"], "manifestations": ["column"], "signs": ["region", "column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Rising_Wave"
+  },
+  {
+    "id": "water-bolt",
+    "displayName": "Water Bolt",
+    "category": "Water",
+    "match": { "elements": ["water"], "signs": ["bolt", "region"], "optionalSigns": ["crosshair"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Water_Bolt"
+  },
+  {
+    "id": "watershot-seal",
+    "displayName": "Watershot Seal",
+    "category": "Water",
+    "match": { "elements": ["water"], "manifestations": ["column"], "signs": ["column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Watershot_Seal"
+  },
+  {
+    "id": "water-horse-spell",
+    "displayName": "Water Horse Spell",
+    "category": "Water",
+    "match": { "elements": ["water"], "manifestations": ["column"], "sigils": ["horse"], "optionalSigns": ["column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Water_Horse_Spell"
+  },
+  {
+    "id": "water-pen",
+    "displayName": "Water Pen",
+    "category": "Water",
+    "match": { "elements": ["water"], "manifestations": ["column"], "signs": ["dispersion"], "optionalSigns": ["column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Water_Pen"
+  },
+  {
+    "id": "vapor-bubble-spell",
+    "displayName": "Vapor Bubble Spell",
+    "category": "Water",
+    "match": { "elements": ["water"], "manifestations": ["column"], "signs": ["cool", "gather"], "optionalSigns": ["column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Vapor_Bubble_Spell"
+  },
+  {
+    "id": "qifreys-water-dragon",
+    "displayName": "Qifrey's Water Dragon",
+    "category": "Water",
+    "match": { "elements": ["water"], "manifestations": ["column", "convergence"], "sigils": ["dragon"], "signs": ["convergence"], "optionalSigns": ["column", "enlarge"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Qifrey%27s_Water_Dragon"
+  },
+  {
+    "id": "water-orb",
+    "displayName": "Water Orb",
+    "category": "Water",
+    "match": { "elements": ["water"], "manifestations": ["orb"], "signs": ["orb"], "optionalSigns": ["column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Water_Orb"
+  },
+  {
+    "id": "boulder-stretch-rope",
+    "displayName": "Boulder Stretch Rope",
+    "category": "Earth",
+    "match": { "elements": ["earth"], "signs": ["weave"], "optionalSigns": ["bind"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Boulder_Stretch_Rope"
+  },
+  {
+    "id": "integration",
+    "displayName": "Integration",
+    "category": "Earth",
+    "match": { "elements": ["earth"], "manifestations": ["crush"], "signs": ["crush"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Integration"
+  },
+  {
+    "id": "sand-cage",
+    "displayName": "Sand Cage",
+    "category": "Earth",
+    "match": { "elements": ["earth"], "manifestations": ["column", "crush"], "signs": ["crush"], "optionalSigns": ["column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Sand_Cage"
+  },
+  {
+    "id": "serpents-bed-of-sand",
+    "displayName": "Serpent's Bed of Sand",
+    "category": "Earth",
+    "match": { "elements": ["earth"], "manifestations": ["convergence"], "signs": ["convergence", "billow"], "optionalSigns": ["collection", "crush"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Serpent%27s_Bed_of_Sand"
+  },
+  {
+    "id": "wall-bend",
+    "displayName": "Wall Bend",
+    "category": "Earth",
+    "match": { "elements": ["earth"], "signs": ["bend", "bind"], "optionalSigns": ["weave", "pull"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Wall_Bend"
+  },
+  {
+    "id": "wall-breaker-seal",
+    "displayName": "Wall Breaker Seal",
+    "category": "Earth",
+    "match": { "elements": ["earth"], "manifestations": ["crush"], "signs": ["crush", "column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Wall_Breaker_Seal"
+  },
+  {
+    "id": "flying-puppet-of-diversion",
+    "displayName": "Flying Puppet of Diversion",
+    "category": "Wind",
+    "match": { "elements": ["wind"], "signs": ["puppet"], "optionalSigns": ["levitation"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Flying_Puppet_of_Diversion"
+  },
+  {
+    "id": "grasping-wind",
+    "displayName": "Grasping Wind",
+    "category": "Wind",
+    "match": { "elements": ["wind"], "signs": ["pull"], "optionalSigns": ["region"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Grasping_Wind"
+  },
+  {
+    "id": "pegasus-carriage-spell",
+    "displayName": "Pegasus Carriage Spell",
+    "category": "Wind",
+    "match": { "elements": ["wind"], "sigils": ["wind-underfoot"], "signs": ["aeriforms-defined"], "optionalSigns": ["levitation", "sign-of-wind"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Pegasus_Carriage_Spell"
+  },
+  {
+    "id": "skysoaring-seal",
+    "displayName": "Skysoaring Seal",
+    "category": "Wind",
+    "match": { "elements": ["wind"], "manifestations": ["levitation"], "signs": ["levitation", "column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Skysoaring_Seal"
+  },
+  {
+    "id": "sylph-shoes-seal",
+    "displayName": "Sylph Shoes Seal",
+    "category": "Wind",
+    "match": { "elements": ["wind"], "manifestations": ["levitation", "convergence"], "signs": ["levitation", "convergence"], "optionalSigils": ["wind-underfoot"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Sylph_Shoes_Seal"
+  },
+  {
+    "id": "wind-wall",
+    "displayName": "Wind Wall",
+    "category": "Wind",
+    "match": { "elements": ["wind"], "manifestations": ["column", "convergence"], "signs": ["convergence", "column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Wind_Wall"
+  },
+  {
+    "id": "bird-of-light-beacon",
+    "displayName": "Bird of Light Beacon",
+    "category": "Light",
+    "match": { "elements": ["light"], "sigils": ["bird-a"], "signs": ["dispersion"], "optionalSigils": ["bird-b"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Bird_of_Light_Beacon"
+  },
+  {
+    "id": "floatglow-lamp",
+    "displayName": "Floatglow Lamp",
+    "category": "Light",
+    "match": { "elements": ["light"], "manifestations": ["levitation"], "signs": ["levitation", "float"], "optionalSigns": ["column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Floatglow_Lamp_Seal"
+  },
+  {
+    "id": "wall-anchored-floatglow-lamp",
+    "displayName": "Wall-Anchored Floatglow Lamp",
+    "category": "Light",
+    "match": { "elements": ["light"], "manifestations": ["levitation", "convergence"], "signs": ["levitation", "convergence"], "optionalSigns": ["column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Floatglow_Lamp_Seal"
+  },
+  {
+    "id": "light-beam",
+    "displayName": "Light Beam",
+    "category": "Light",
+    "match": { "elements": ["light"], "manifestations": ["column"], "signs": ["column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Light_Beam"
+  },
+  {
+    "id": "light-tracer",
+    "displayName": "Light Tracer",
+    "category": "Light",
+    "match": { "elements": ["light"], "signs": ["weave", "link"], "optionalSigils": ["crystal"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Light_Tracer"
+  },
+  {
+    "id": "flowers-of-light",
+    "displayName": "Flowers of Light",
+    "category": "Light",
+    "match": { "elements": ["light"], "sigils": ["flower"], "optionalSigns": ["dispersion"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Flowers_of_Light"
+  },
+  {
+    "id": "crystal-ribbon",
+    "displayName": "Crystal Ribbon",
+    "category": "Crystal",
+    "match": { "elements": ["crystal"], "sigils": ["crystal"], "signs": ["weave"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Crystal_Ribbon"
+  },
+  {
+    "id": "crystal-shard",
+    "displayName": "Crystal Shard",
+    "category": "Crystal",
+    "match": { "elements": ["crystal"], "sigils": ["crystal"], "manifestations": ["column"], "signs": ["column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Crystal_Shard"
+  },
+  {
+    "id": "capture-pennant-spell",
+    "displayName": "Capture Pennant Spell",
+    "category": "Time",
+    "match": { "elements": ["time"], "sigils": ["repetition"], "signs": ["strengthen", "sights-set", "entwine"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Capture_Pennant_Spell"
+  },
+  {
+    "id": "counterclock",
+    "displayName": "Counterclock",
+    "category": "Time",
+    "match": { "elements": ["time"], "sigils": ["repetition"], "optionalSigns": ["repetition"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Counterclock"
+  },
+  {
+    "id": "repetition-seal",
+    "displayName": "Repetition Seal",
+    "category": "Time",
+    "match": { "elements": ["time"], "sigils": ["repetition"], "signs": ["repetition"], "optionalSigns": ["column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Repetition_Seal"
+  },
+  {
+    "id": "spell-of-reduction",
+    "displayName": "Spell of Reduction",
+    "category": "Time",
+    "match": { "elements": ["time"], "sigils": ["repetition"], "signs": ["enlarge", "diamond"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Spell_of_Reduction"
+  },
+  {
+    "id": "time-stop",
+    "displayName": "Time Stop",
+    "category": "Time",
+    "match": { "elements": ["time"], "sigils": ["stop"], "optionalSigns": ["repetition"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Time_Stop"
+  },
+  {
+    "id": "valance-leech-counterclock",
+    "displayName": "Valance Leech Counterclock",
+    "category": "Time",
+    "match": { "elements": ["time"], "sigils": ["valance-leech", "repetition"], "optionalSigns": ["repetition"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Valance_Leech_Counterlock_Spell"
+  },
+  {
+    "id": "gathering-shadows",
+    "displayName": "Gathering Shadows",
+    "category": "Vision",
+    "match": { "elements": ["light"], "signs": ["eye", "vision", "bend"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Gathering_Shadows"
+  },
+  {
+    "id": "light-reducing-spell",
+    "displayName": "Light-Reducing Spell",
+    "category": "Vision",
+    "match": { "elements": ["light"], "signs": ["vision", "convergence"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Light-Reducing_Spell"
+  },
+  {
+    "id": "makeover-mask-spell",
+    "displayName": "Makeover Mask Spell",
+    "category": "Vision",
+    "match": { "elements": ["light"], "signs": ["eye", "vision", "region"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Makeover_Mask_Spell"
+  },
+  {
+    "id": "beast-repellent",
+    "displayName": "Beast Repellent",
+    "category": "Mixed",
+    "match": { "elements": ["fire", "wind"], "manifestations": ["column"], "optionalSigns": ["column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Beast_Repellent"
+  },
+  {
+    "id": "cloak-spell",
+    "displayName": "Cloak Spell",
+    "category": "Mixed",
+    "match": { "elements": ["wind", "light"], "signs": ["puppet", "eye", "vision"], "optionalSigns": ["bend"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Cloak_Spell"
+  },
+  {
+    "id": "floating-drops",
+    "displayName": "Floating Drops",
+    "category": "Mixed",
+    "match": { "elements": ["water", "wind"], "manifestations": ["levitation"], "signs": ["region"], "optionalSigns": ["column"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Floating_Drops"
+  },
+  {
+    "id": "rainflinger-drying",
+    "displayName": "Rainflinger (Drying)",
+    "category": "Mixed",
+    "match": { "elements": ["water", "wind"], "signs": ["crosshair"], "optionalSigns": ["region"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Rainflinger"
+  },
+  {
+    "id": "rainflinger-normal",
+    "displayName": "Rainflinger (Normal)",
+    "category": "Mixed",
+    "match": { "elements": ["water", "wind"], "signs": ["crosshair", "rain"], "optionalSigns": ["region"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Rainflinger"
+  },
+  {
+    "id": "warmth-retention-seal",
+    "displayName": "Warmth-Retention Seal",
+    "category": "Mixed",
+    "match": { "elements": ["fire"], "signs": ["radial", "bind"], "optionalSigns": ["strengthen"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Warmth-Retention_Seal"
+  },
+  {
+    "id": "billow-cluster",
+    "displayName": "Billow Cluster",
+    "category": "Niche",
+    "match": { "signs": ["billow", "collection"], "optionalElements": ["earth", "water"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Billow_Cluster"
+  },
+  {
+    "id": "cookpot-lid",
+    "displayName": "Cookpot Lid",
+    "category": "Niche",
+    "match": { "sigils": ["repetition"], "signs": ["convergence", "region"], "optionalSigns": ["repetition"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Magic_Cookpot"
+  },
+  {
+    "id": "fish-guidance",
+    "displayName": "Fish Guidance",
+    "category": "Niche",
+    "match": { "sigils": ["guidance"], "signs": ["float", "crosshair"], "optionalElements": ["guidance"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Fish_Guidance"
+  },
+  {
+    "id": "floating-expansion",
+    "displayName": "Floating Expansion",
+    "category": "Niche",
+    "match": { "signs": ["float", "enlarge", "window"], "optionalElements": ["time"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Floating_Expansion"
+  },
+  {
+    "id": "inverted-scalewolf-curse",
+    "displayName": "Inverted Scalewolf Curse",
+    "category": "Niche",
+    "match": { "sigils": ["scalewolf"], "optionalSigns": ["enlarge"] },
+    "safety": "forbidden-adjacent",
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Inverted_Scalewolf_Curse"
+  },
+  {
+    "id": "lockwax",
+    "displayName": "Lockwax",
+    "category": "Niche",
+    "match": { "signs": ["bind"], "optionalElements": ["earth"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Lockwax"
+  },
+  {
+    "id": "memory-erasure",
+    "displayName": "Memory Erasure",
+    "category": "Niche",
+    "match": { "signs": ["glaives"], "optionalElements": ["time"] },
+    "safety": "forbidden",
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Memory_Erasure"
+  },
+  {
+    "id": "mirror-spell",
+    "displayName": "Mirror Spell",
+    "category": "Niche",
+    "match": { "elements": ["light"], "signs": ["vision"], "optionalSigns": ["window"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Mirror_Spell"
+  },
+  {
+    "id": "pouch-of-calling",
+    "displayName": "Pouch of Calling",
+    "category": "Niche",
+    "match": { "sigils": ["calling"], "optionalElements": ["calling"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Pouch_of_Calling"
+  },
+  {
+    "id": "sand-bridge",
+    "displayName": "Sand Bridge",
+    "category": "Niche",
+    "match": { "elements": ["earth"], "manifestations": ["column"], "signs": ["column", "collection"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Sand_Bridge"
+  },
+  {
+    "id": "sealchair-glyph",
+    "displayName": "Sealchair Glyph",
+    "category": "Niche",
+    "match": { "signs": ["puppet", "link"], "optionalElements": ["wind", "light"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Sealchair_Glyph"
+  },
+  {
+    "id": "tracking-spell",
+    "displayName": "Tracking Spell",
+    "category": "Niche",
+    "match": { "sigils": ["guidance"], "signs": ["sights-set"], "optionalElements": ["guidance"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Tracking_Spell"
+  },
+  {
+    "id": "smokesculpting-seal",
+    "displayName": "Smokesculpting Seal",
+    "category": "Niche",
+    "match": { "sigils": ["smoke"], "signs": ["crush", "column"], "optionalElements": ["smoke"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Smokesculpting_Seal"
+  },
+  {
+    "id": "windowway-spell",
+    "displayName": "Windowway Spell",
+    "category": "Niche",
+    "match": { "signs": ["window", "link"], "optionalElements": ["light"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Windowway_Spell"
+  },
+  {
+    "id": "enchanted-doorknob-seal",
+    "displayName": "Enchanted Doorknob Seal",
+    "category": "Niche",
+    "match": { "signs": ["bind", "link"], "optionalElements": ["light"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/The_Starry_Sword"
+  },
+  {
+    "id": "smoke-cloud",
+    "displayName": "Smoke Cloud",
+    "category": "Niche",
+    "match": { "sigils": ["smoke"], "signs": ["billow"], "optionalElements": ["smoke"] },
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Smoke_Cloud"
+  },
+  {
+    "id": "beldaruits-smoke-sculpture",
+    "displayName": "Beldaruit's Smoke Sculpture",
+    "category": "Unknown",
+    "match": { "sigils": ["smoke"], "manifestations": ["levitation"], "optionalSigns": ["levitation"] },
+    "certainty": "unknown-glyph",
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Beldaruit%27s_Smoke_Sculpture"
+  },
+  {
+    "id": "forbidden-flames",
+    "displayName": "Forbidden Flames",
+    "category": "Unknown",
+    "match": { "elements": ["fire"], "manifestations": ["column"], "optionalSigns": ["column"] },
+    "safety": "forbidden",
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Forbidden_Flames"
+  },
+  {
+    "id": "spike",
+    "displayName": "Spike",
+    "category": "Unknown",
+    "match": { "elements": ["earth"], "manifestations": ["column"], "optionalSigns": ["column"] },
+    "certainty": "unknown-glyph",
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Spike"
+  },
+  {
+    "id": "forbidden-glow",
+    "displayName": "Forbidden Glow",
+    "category": "Unknown",
+    "match": { "elements": ["light"], "manifestations": ["column"], "optionalSigns": ["column"] },
+    "safety": "forbidden",
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Forbidden_Glow"
+  },
+  {
+    "id": "anti-scalewolf-curse",
+    "displayName": "Anti Scalewolf Curse",
+    "category": "Forbidden",
+    "match": { "sigils": ["scalewolf"], "signs": ["glaives"], "optionalElements": ["time"] },
+    "safety": "forbidden",
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Anti_Scalewolf_Curse"
+  },
+  {
+    "id": "illusory-labyrinth",
+    "displayName": "Illusory Labyrinth",
+    "category": "Forbidden",
+    "match": { "elements": ["light"], "signs": ["eye", "vision", "region"], "optionalSigns": ["bend"] },
+    "safety": "forbidden",
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Illusory_Labyrinth"
+  },
+  {
+    "id": "petrification",
+    "displayName": "Petrification",
+    "category": "Forbidden",
+    "match": { "elements": ["earth"], "signs": ["bend", "dispersion"], "optionalSigns": ["crush"] },
+    "safety": "forbidden",
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Petrification"
+  },
+  {
+    "id": "scalewolf-curse",
+    "displayName": "Scalewolf Curse",
+    "category": "Forbidden",
+    "match": { "sigils": ["scalewolf"], "signs": ["glaives"], "optionalElements": ["time"] },
+    "safety": "forbidden",
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Scalewolf_Curse"
+  },
+  {
+    "id": "slime-rendering-seal",
+    "displayName": "Slime Rendering Seal",
+    "category": "Forbidden",
+    "match": { "signs": ["glaives", "crush"], "optionalElements": ["earth"] },
+    "safety": "forbidden",
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Slime_Rendering_Seal"
+  },
+  {
+    "id": "twin-bottles-spell",
+    "displayName": "Twin Bottle's Spell",
+    "category": "Forbidden",
+    "match": { "signs": ["link", "glaives"], "optionalElements": ["time"] },
+    "safety": "forbidden",
+    "sourceUrl": "https://witchhatatelier.telepedia.net/wiki/Twin_Bottle%27s_Spell"
+  }
+]

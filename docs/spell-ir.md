@@ -57,6 +57,7 @@ Multiple recognized sigils compile to one valid `SpellIR` when every sigil maps 
 | `quality` | Overall glyph quality after ring, sigil, sign, and neatness scoring. | `0.76`; `0..1`. |
 | `neatness` | Global neatness carried into the compiled spell. | `0.74`; `0..1`. |
 | `warnings` | Parser and compiler warnings relevant to the spell. | `[]` or `["primary_sigil_confidence_low"]`. |
+| `recognizedSpell` | Best wiki spell recipe match, or `null` when the glyph only resolves to a broad element/form. Unsupported elements can still produce a recipe match for naming. | `{ "displayName": "Watershot Seal", "confidence": 0.91 }`. |
 | `signature` | Compact identity string used to reset renderer state when behavior changes. | `"fire:column.82:true:170:..."`; string format is internal and may change. |
 
 `direction` is normalized and includes component angles for diagnostics and effect tuning:
@@ -96,7 +97,7 @@ Invalid spells keep the same top-level shape so diagnostics and renderer code ca
 - Numeric behavior fields are `0`, except neutral renderer defaults such as `effectScale` and `gravity`.
 - `warnings` contains parser warnings plus the compiler reason.
 
-Missing or unsupported sigil elements compile to invalid `SpellIR` with `status: "Unsupported element"`. Multiple recognized sigils with supported elements render as a weighted blend. The renderer does not fall back to an unsupported element effect.
+Missing sigil elements compile to invalid `SpellIR` with `status: "Unsupported element"`. Unsupported-but-known sigil elements such as `crystal`, `time`, `smoke`, `guidance`, and `calling` still compile as invalid for rendering, but the compiler keeps their element fields and can attach a `recognizedSpell` recipe match. Multiple recognized sigils with supported elements render as a weighted blend. The renderer does not fall back to an unsupported element effect.
 
 ## Example
 

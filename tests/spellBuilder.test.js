@@ -1,9 +1,12 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 
 import { CONFIG } from "../src/config.js";
 import { compileSpell } from "../src/compiler/spellBuilder.js";
 import { GLYPH_WARNINGS } from "../src/parser/glyphWarnings.js";
+
+const spellRecipes = JSON.parse(readFileSync(new URL("../src/dictionary/spell-recipes.json", import.meta.url), "utf8"));
 
 function glyphAST({
   ringComplete = false,
@@ -57,6 +60,32 @@ function glyphAST({
       instability: 0.12
     },
     warnings: primarySigil ? [] : [GLYPH_WARNINGS.missingPrimarySigil]
+  };
+}
+
+function sign(id, manifestation = id) {
+  return {
+    id,
+    confidence: 0.93,
+    neatness: 0.9,
+    sizeNorm: 0.12,
+    lengthNorm: 0.08,
+    layer: "outer",
+    radiusNorm: 0.82,
+    angleDeg: 270,
+    orientationDeg: 270,
+    directedOrientationDeg: 270,
+    radialFacing: "inward",
+    shape: {},
+    semantic: {
+      manifestation,
+      directionMode: "inward",
+      force: 0.1,
+      focus: 0.1,
+      spread: 0,
+      range: 0,
+      lifetimeBias: 0
+    }
   };
 }
 
@@ -414,4 +443,39 @@ test("composes multiple recognized sigils into an elemental blend", () => {
   assert.ok(!spellIR.warnings.includes(GLYPH_WARNINGS.unsupportedMultipleSigils));
   assert.ok(spellIR.signature.includes("fire"));
   assert.ok(spellIR.signature.includes("water"));
+});
+
+test("recognizes named wiki spell recipes from compiled components", () => {
+  const spellIR = compileSpell({
+    glyphAST: glyphAST({
+      ringComplete: true,
+      element: "water",
+      signs: [sign("column", "column")]
+    }),
+    dictionary: { spellRecipes },
+    config: CONFIG
+  });
+
+  assert.equal(spellIR.valid, true);
+  assert.equal(spellIR.recognizedSpell.displayName, "Watershot Seal");
+  assert.equal(spellIR.recognizedSpell.certainty, "matched");
+});
+
+test("keeps unsupported wiki elements invalid but still names their spell recipe", () => {
+  const ast = glyphAST({
+    ringComplete: true,
+    element: "crystal",
+    signs: [sign("column", "column")]
+  });
+  ast.primarySigil.id = "crystal";
+
+  const spellIR = compileSpell({
+    glyphAST: ast,
+    dictionary: { spellRecipes },
+    config: CONFIG
+  });
+
+  assert.equal(spellIR.valid, false);
+  assert.equal(spellIR.status, "Unsupported element");
+  assert.equal(spellIR.recognizedSpell.displayName, "Crystal Shard");
 });

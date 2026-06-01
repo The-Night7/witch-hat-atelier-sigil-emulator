@@ -24,8 +24,9 @@ This document explains how to add or edit sigils, signs, and sample spells in:
 - `src/dictionary/signs.json`
 - `src/dictionary/sample-spells.json`
 - `src/dictionary/spell-lore.json`
+- `src/dictionary/spell-recipes.json`
 
-The sigil and sign dictionaries define both recognition data and spell meaning. Recognition mostly comes from `strokeTemplate`; semantics tell the compiler what the recognized symbol should do. Sample spells are drawing references shown in the Dictionary panel, not compiler grammar. Spell lore is a structured reference catalog for wiki-backed spell families and construction principles.
+The sigil and sign dictionaries define both recognition data and spell meaning. Recognition mostly comes from `strokeTemplate`; semantics tell the compiler what the recognized symbol should do. Sample spells are drawing references shown in the Dictionary panel, not compiler grammar. Spell lore is a structured reference catalog for wiki-backed spell families and construction principles. Spell recipes map recognized sigils, signs, elements, and manifestations to named wiki spells.
 
 ## Entry Types
 
@@ -225,7 +226,7 @@ Current values:
 - `guidance`
 - `calling`
 
-This field is required for sigils. The renderer currently has full active effects for `fire`, `water`, `wind`, `earth`, and `light`. Newer wiki-backed categories such as `time`, `decorative`, `crystal`, `smoke`, `guidance`, and `calling` are still useful for recognition and dictionary display, but compile as unsupported elements until dedicated effects are implemented.
+This field is required for sigils. The renderer currently has full active effects for `fire`, `water`, `wind`, `earth`, and `light`. Newer wiki-backed categories such as `time`, `decorative`, `crystal`, `smoke`, `guidance`, and `calling` are still useful for recognition, dictionary display, and spell recipe naming, but compile as unsupported elements until dedicated effects are implemented.
 
 Multiple sigils may share one element when they represent variants.
 

@@ -8,6 +8,7 @@ import {
 } from "./semanticRules.js";
 import { directionFromSurfaceVector } from "./spellDirection.js";
 import { calculateSpellQuality, calculateSpellStability } from "./spellQuality.js";
+import { recognizeSpellRecipe } from "./spellRecipeMatcher.js";
 
 const PRIMARY_SIGIL_AMBIGUITY_GAP = 0.05;
 
@@ -52,7 +53,7 @@ function sameKindAlternateConfidence(recognition) {
   );
 }
 
-function invalidSpell(status, glyphAST, warnings = []) {
+function invalidSpell(status, glyphAST, warnings = [], overrides = {}) {
   const ringComplete = Boolean(glyphAST.ring?.complete);
   const combinedWarnings = [...new Set([...(glyphAST.warnings ?? []), ...warnings])];
   return {
@@ -82,7 +83,9 @@ function invalidSpell(status, glyphAST, warnings = []) {
     quality: 0,
     neatness: glyphAST.globalMetrics?.neatness ?? 0,
     warnings: combinedWarnings,
-    signature: `invalid:${status}:${ringComplete}:${glyphAST.ring?.completeness ?? 0}`
+    recognizedSpell: null,
+    signature: `invalid:${status}:${ringComplete}:${glyphAST.ring?.completeness ?? 0}`,
+    ...overrides
   };
 }
 
@@ -210,7 +213,18 @@ function calculateSpellDuration({ primarySemantic, deltas, quality, neatness }) 
   );
 }
 
-export function compileSpell({ glyphAST, config }) {
+function buildRecipeProbe({ primary, elementBlend, manifestations }) {
+  return {
+    valid: true,
+    element: primary?.element ?? null,
+    elements: elementBlend.map((entry) => entry.element),
+    elementBlend,
+    elementConfidence: primary?.confidence ?? 0,
+    manifestations
+  };
+}
+
+export function compileSpell({ glyphAST, dictionary, config }) {
   if (!glyphAST?.ring?.found) {
     return invalidSpell("No ring detected", glyphAST ?? { globalMetrics: {} });
   }
@@ -234,16 +248,31 @@ export function compileSpell({ glyphAST, config }) {
     return invalidSpell("Unsupported element", glyphAST, [GLYPH_WARNINGS.primaryElementMissing]);
   }
 
-  if (sigils.some(sigilElementUnsupported)) {
-    return invalidSpell("Unsupported element", glyphAST, [GLYPH_WARNINGS.primaryElementUnsupported]);
-  }
-
   const elementBlend = buildElementBlend(sigils);
   const signs = glyphAST.signs ?? [];
+  const { primaryManifestation, manifestations, manifestationInfluence } = aggregateManifestations(signs);
+  const recognizedSpell = recognizeSpellRecipe({
+    spellIR: buildRecipeProbe({ primary, elementBlend, manifestations }),
+    glyphAST,
+    recipes: dictionary?.spellRecipes
+  });
+
+  if (sigils.some(sigilElementUnsupported)) {
+    return invalidSpell("Unsupported element", glyphAST, [GLYPH_WARNINGS.primaryElementUnsupported], {
+      element: primary.element,
+      elements: elementBlend.map((entry) => entry.element),
+      elementBlend,
+      elementConfidence: primary.confidence,
+      primaryManifestation,
+      manifestations,
+      recognizedSpell,
+      signature: `unsupported:${elementBlend.map((entry) => entry.element).join("+")}:${recognizedSpell?.id ?? "none"}`
+    });
+  }
+
   const quality = calculateSpellQuality(glyphAST);
   const stability = calculateSpellStability(glyphAST, config);
   const neatness = glyphAST.globalMetrics?.neatness ?? quality;
-  const { primaryManifestation, manifestations, manifestationInfluence } = aggregateManifestations(signs);
   const deltas = aggregateSemanticDeltas(signs);
   const surfaceDirection = signs.length ? combineSignDirection(signs) : { x: 0, y: 0, strength: 0 };
   const directionCoherence = surfaceDirection.strength ?? 0;
@@ -314,6 +343,7 @@ export function compileSpell({ glyphAST, config }) {
     stability,
     quality,
     neatness,
+    recognizedSpell,
     warnings: (glyphAST.warnings ?? []).filter((warning) => warning !== GLYPH_WARNINGS.unsupportedMultipleSigils),
     signature: `${elementBlend.map((entry) => `${entry.element}.${Math.round(entry.weight * 100)}`).join("+")}:${manifestationSignature(manifestations)}:${active}:${Math.round(effectScale * 100)}:${Math.round(
       force * 100

@@ -75,6 +75,25 @@ function formatElements(spellIR) {
   return spellIR?.element ? spellIR.element : "None";
 }
 
+function formatRecognizedSpell(spellIR) {
+  const spell = spellIR?.recognizedSpell;
+  if (!spell?.displayName) {
+    return "None";
+  }
+
+  const confidence = typeof spell.confidence === "number" ? ` ${Math.round(spell.confidence * 100)}%` : "";
+  const prefix =
+    spell.certainty === "ambiguous"
+      ? "Ambiguous: "
+      : spell.certainty === "family"
+        ? "Likely "
+        : spell.certainty === "partial"
+          ? "Partial: "
+          : "";
+  const suffix = spell.safety === "forbidden" ? " (forbidden)" : "";
+  return `${prefix}${spell.displayName}${suffix}${confidence}`;
+}
+
 export function updateSummary({ elements, store, capture, pipeline, spellIR }) {
   const ringClosed = Boolean(pipeline?.ring?.complete);
   const hasUnsupportedMultipleRings = Boolean(pipeline?.ring?.unsupportedMultipleRings?.length);
@@ -98,6 +117,7 @@ export function updateSummary({ elements, store, capture, pipeline, spellIR }) {
     capture.setLocked(inputLocked);
   }
 
+  elements.spellNameValue.textContent = formatRecognizedSpell(spellIR);
   elements.elementValue.textContent = formatElements(spellIR);
   elements.manifestationValue.textContent = formatManifestations(spellIR);
   updateMeter(elements.qualityMeter, elements.qualityMeterValue, spellIR?.quality ?? 0);

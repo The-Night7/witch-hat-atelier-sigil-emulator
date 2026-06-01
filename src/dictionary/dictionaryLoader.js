@@ -7,17 +7,19 @@ async function readJson(url) {
 }
 
 export async function loadDictionary() {
-  const [sigils, signs, sampleSpells, spellLore] = await Promise.all([
+  const [sigils, signs, sampleSpells, spellLore, spellRecipes] = await Promise.all([
     readJson(new URL("./sigils.json", import.meta.url)),
     readJson(new URL("./signs.json", import.meta.url)),
     readJson(new URL("./sample-spells.json", import.meta.url)),
-    readJson(new URL("./spell-lore.json", import.meta.url))
+    readJson(new URL("./spell-lore.json", import.meta.url)),
+    readJson(new URL("./spell-recipes.json", import.meta.url))
   ]);
 
   return {
     sigils,
     signs,
     sampleSpells,
-    spellLore
+    spellLore,
+    spellRecipes
   };
 }

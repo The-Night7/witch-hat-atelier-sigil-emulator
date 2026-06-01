@@ -134,7 +134,31 @@ function renderSpellFamilyCard(family) {
   `;
 }
 
-function renderLoreReference(spellLore) {
+function renderSpellRecipeCard(recipe) {
+  const match = recipe.match ?? {};
+  const parts = [
+    ...(match.elements ?? []).map((value) => `element:${value}`),
+    ...(match.sigils ?? []).map((value) => `sigil:${value}`),
+    ...(match.signs ?? []).map((value) => `sign:${value}`),
+    ...(match.manifestations ?? []).map((value) => `form:${value}`)
+  ];
+  const matchText = parts.length ? parts.join(", ") : "family fallback";
+  const badge = recipe.safety === "forbidden" ? "forbidden" : recipe.category ?? "spell";
+  return `
+    <article class="reference-card">
+      <div class="reference-card-header">
+        <strong>${escapeHtml(recipe.displayName ?? recipe.id)}</strong>
+        <span>${escapeHtml(badge)}</span>
+      </div>
+      <dl>
+        <div><dt>Category</dt><dd>${escapeHtml(recipe.category ?? "unknown")}</dd></div>
+        <div><dt>Match</dt><dd>${escapeHtml(matchText)}</dd></div>
+      </dl>
+    </article>
+  `;
+}
+
+function renderLoreReference(spellLore, spellRecipes = []) {
   if (!spellLore) {
     return "";
   }
@@ -157,7 +181,8 @@ function renderLoreReference(spellLore) {
   return [
     sourceCard,
     ...(spellLore.principles ?? []).map(renderPrincipleCard),
-    ...(spellLore.families ?? []).map(renderSpellFamilyCard)
+    ...(spellLore.families ?? []).map(renderSpellFamilyCard),
+    ...(spellRecipes ?? []).filter((recipe) => recipe.kind !== "family").map(renderSpellRecipeCard)
   ].join("");
 }
 
@@ -175,5 +200,5 @@ export function renderDictionaryReference(elements, dictionary) {
   elements.signReferenceCards.innerHTML = (dictionary.signs ?? [])
     .map((entry) => renderReferenceCard(entry, "sign"))
     .join("");
-  elements.loreReferenceCards.innerHTML = renderLoreReference(dictionary.spellLore);
+  elements.loreReferenceCards.innerHTML = renderLoreReference(dictionary.spellLore, dictionary.spellRecipes);
 }

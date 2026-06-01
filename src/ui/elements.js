@@ -12,6 +12,7 @@ export function getElements() {
     diagnosticRootPanel: document.querySelector("#diagnosticRootPanel"),
     panelTabButtons: [...document.querySelectorAll(".panel-tab-button")],
     statusValue: document.querySelector("#statusValue"),
+    spellNameValue: document.querySelector("#spellNameValue"),
     elementValue: document.querySelector("#elementValue"),
     manifestationValue: document.querySelector("#manifestationValue"),
     qualityMeter: document.querySelector("#qualityMeter"),
