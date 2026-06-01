@@ -308,6 +308,13 @@ function scoreByStrokeTemplate(kind, entry, candidate, features) {
       : 1;
   const grossStructureMismatchCap =
     structuralMatch.score < 0.18 && templateMatch.templateCoveredRatio < 0.5 ? 0.44 : 1;
+  const partialSigilTraceCap =
+    kind === "sigil" &&
+    structuralMatch.aspectScore < 0.1 &&
+    templateMatch.candidateExplainedRatio >= 0.75 &&
+    templateMatch.templateCoveredRatio < 0.52
+      ? 0.44
+      : 1;
   const contextualScore =
     templateMatch.confidence * 0.68 +
     structuralMatch.score * 0.13 +
@@ -319,7 +326,8 @@ function scoreByStrokeTemplate(kind, entry, candidate, features) {
     confidence: Math.min(
       clamp(Math.min(contextualScore, contextLiftCap) * simpleSignStructureMultiplier),
       simpleSignIncompleteCap,
-      grossStructureMismatchCap
+      grossStructureMismatchCap,
+      partialSigilTraceCap
     ),
     templateMatch,
     structuralMatch

@@ -38,10 +38,31 @@ Extra recognized sigils are secondary blend sigils. Their element semantics nudg
 Current sigil ids:
 
 - `fire`
-- `water`
-- `wind-directs-air`
-- `earth`
+- `unburning-flames`
 - `light`
+- `water`
+- `earth`
+- `wind-directs-air`
+- `aeriforms`
+- `wind-underfoot`
+- `whorling-winds`
+- `repetition`
+- `stop`
+- `bird-a`
+- `bird-b`
+- `dragon`
+- `flower`
+- `horse`
+- `owlcat`
+- `owlcat-head`
+- `scalewolf`
+- `torchstag`
+- `liongoat`
+- `valance-leech`
+- `crystal`
+- `smoke`
+- `guidance`
+- `calling`
 
 ### Signs
 
@@ -165,8 +186,14 @@ Current values:
 - `wind`
 - `earth`
 - `light`
+- `time`
+- `decorative`
+- `crystal`
+- `smoke`
+- `guidance`
+- `calling`
 
-This field is required for sigils. Missing or unsupported elements compile to invalid `SpellIR` instead of falling back to another effect.
+This field is required for sigils. The renderer currently has full active effects for `fire`, `water`, `wind`, `earth`, and `light`. Newer wiki-backed categories such as `time`, `decorative`, `crystal`, `smoke`, `guidance`, and `calling` are still useful for recognition and dictionary display, but compile as unsupported elements until dedicated effects are implemented.
 
 Multiple sigils may share one element when they represent variants.
 

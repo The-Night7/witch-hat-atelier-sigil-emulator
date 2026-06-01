@@ -435,3 +435,21 @@ test("keeps a bolded fire sigil classified as fire", () => {
   assert.equal(recognition.recognitionStatus, "valid_messy");
   assert.equal(recognition.diagnostics.topMatches[0].id, "fire");
 });
+
+test("recognizes every sigil that has a stroke template", () => {
+  const templatedSigils = realDictionary.sigils.filter((entry) => entry.strokeTemplate?.strokes?.length);
+  assert.ok(templatedSigils.length >= 20);
+
+  const candidates = templatedSigils.map((entry) =>
+    cleanCandidateFromTemplate(entry, {
+      layer: "center",
+      radiusNorm: 0.28
+    })
+  );
+  const recognitions = recognizeCandidates(candidates, realDictionary, CONFIG);
+
+  assert.deepEqual(
+    recognitions.map((recognition) => recognition.id),
+    templatedSigils.map((entry) => entry.id)
+  );
+});
