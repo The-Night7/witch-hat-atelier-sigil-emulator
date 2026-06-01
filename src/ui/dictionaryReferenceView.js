@@ -105,6 +105,62 @@ function renderSampleSpellCard(sample) {
   `;
 }
 
+function renderPrincipleCard(principle) {
+  return `
+    <article class="reference-card">
+      <div class="reference-card-header">
+        <strong>${escapeHtml(principle.displayName ?? principle.id)}</strong>
+        <span>rule</span>
+      </div>
+      <p class="reference-card-description">${escapeHtml(principle.summary)}</p>
+    </article>
+  `;
+}
+
+function renderSpellFamilyCard(family) {
+  const spellNames = family.spellNames?.length ? family.spellNames.join(", ") : "none listed";
+  return `
+    <article class="reference-card">
+      <div class="reference-card-header">
+        <strong>${escapeHtml(family.displayName ?? family.id)}</strong>
+        <span>${escapeHtml(family.element ?? family.kind ?? "lore")}</span>
+      </div>
+      <p class="reference-card-description">${escapeHtml(family.summary)}</p>
+      <dl>
+        <div><dt>Type</dt><dd>${escapeHtml(family.kind ?? "lore")}</dd></div>
+        <div><dt>Examples</dt><dd>${escapeHtml(spellNames)}</dd></div>
+      </dl>
+    </article>
+  `;
+}
+
+function renderLoreReference(spellLore) {
+  if (!spellLore) {
+    return "";
+  }
+
+  const sourceLinks = (spellLore.sources ?? [])
+    .map((source) => `<a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">${escapeHtml(source.title)}</a>`)
+    .join(", ");
+  const sourceCard = sourceLinks
+    ? `
+      <article class="reference-card">
+        <div class="reference-card-header">
+          <strong>Wiki Sources</strong>
+          <span>reference</span>
+        </div>
+        <p class="reference-card-description">${sourceLinks}</p>
+      </article>
+    `
+    : "";
+
+  return [
+    sourceCard,
+    ...(spellLore.principles ?? []).map(renderPrincipleCard),
+    ...(spellLore.families ?? []).map(renderSpellFamilyCard)
+  ].join("");
+}
+
 export function renderDictionaryReference(elements, dictionary) {
   if (!dictionary) {
     return;
@@ -119,4 +175,5 @@ export function renderDictionaryReference(elements, dictionary) {
   elements.signReferenceCards.innerHTML = (dictionary.signs ?? [])
     .map((entry) => renderReferenceCard(entry, "sign"))
     .join("");
+  elements.loreReferenceCards.innerHTML = renderLoreReference(dictionary.spellLore);
 }

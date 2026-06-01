@@ -774,7 +774,7 @@ body:not(.sigil-maker-page) .app-shell {
 }
 
 .reference-tabs {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .diagnostics-tabs {

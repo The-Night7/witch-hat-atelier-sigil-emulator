@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Witch Hat Atelier Spell Simulator</title>
     <link rel="icon" href="./assets/favicon-BNoicV3H.ico">
-    <script type="module" crossorigin src="./assets/index-aB6GwRs8.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/paperRenderer-DTtF7KiC.js">
-    <link rel="modulepreload" crossorigin href="./assets/templateNormalizer-CORv1iK7.js">
-    <link rel="modulepreload" crossorigin href="./assets/symbolRecognizer-CE-nq9FC.js">
-    <link rel="modulepreload" crossorigin href="./assets/spellEffectRenderer-DA1tib6_.js">
+    <script type="module" crossorigin src="./assets/index-DMRpsVyc.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/paperRenderer-BJl1TLDY.js">
+    <link rel="modulepreload" crossorigin href="./assets/templateNormalizer-gdYUmYGT.js">
+    <link rel="modulepreload" crossorigin href="./assets/symbolRecognizer-DGnKWVUQ.js">
+    <link rel="modulepreload" crossorigin href="./assets/spellEffectRenderer-CBh88eO1.js">
     <link rel="modulepreload" crossorigin href="./assets/glyphOverlayRenderer-tFQwRcA8.js">
     <link rel="modulepreload" crossorigin href="./assets/debugOverlay-DONpHWOa.js">
-    <link rel="stylesheet" crossorigin href="./assets/paperRenderer-CcnzwZQK.css">
+    <link rel="stylesheet" crossorigin href="./assets/paperRenderer-CxA7Dhaq.css">
   </head>
   <body>
     <div class="app-shell">
@@ -105,6 +105,9 @@
                 <button type="button" class="dictionary-tab-button" data-dictionary-panel="signReferencePanel">
                   Signs
                 </button>
+                <button type="button" class="dictionary-tab-button" data-dictionary-panel="loreReferencePanel">
+                  Lore
+                </button>
               </div>
               <div id="sampleSpellReferencePanel" class="reference-list">
                 <p class="panel-description">
@@ -123,6 +126,12 @@
                   Signs control what form spells will take. They serve as modifiers, allowing the effect of a spell to be altered.
                 </p>
                 <div id="signReferenceCards"></div>
+              </div>
+              <div id="loreReferencePanel" class="reference-list" hidden>
+                <p class="panel-description">
+                  Lore-backed spell families and construction principles from the wiki pages.
+                </p>
+                <div id="loreReferenceCards"></div>
               </div>
             </section>
           </section>

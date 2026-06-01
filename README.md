@@ -39,6 +39,7 @@ The app turns a freehand spell diagram into parser output, compiled spell behavi
 - Produces parser diagnostics, `GlyphAST`, and `SpellIR` output for inspection.
 - Renders animated element effects from the compiled spell behavior.
 - Shows sample spell layouts in the Dictionary panel as drawing references.
+- Shows lore-backed spell families and construction principles in the Dictionary panel.
 - Includes reference tools for making, viewing, and testing stroke templates, plus a spell effect lab for visual and animation tuning.
 
 ## Current Limitations

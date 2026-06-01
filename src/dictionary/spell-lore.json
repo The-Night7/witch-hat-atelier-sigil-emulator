@@ -1,0 +1,179 @@
+{
+  "sources": [
+    {
+      "title": "Magic",
+      "url": "https://witchhatatelier.telepedia.net/wiki/Magic"
+    },
+    {
+      "title": "Spells",
+      "url": "https://witchhatatelier.telepedia.net/wiki/Spells"
+    }
+  ],
+  "principles": [
+    {
+      "id": "drawn-magic",
+      "displayName": "Drawn Magic",
+      "summary": "Magic is performed by drawing spell diagrams with special ink. The emulator models this as stroke parsing, symbol recognition, and compilation."
+    },
+    {
+      "id": "ring-activation",
+      "displayName": "Ring Activation",
+      "summary": "A spell activates when its diagram becomes complete, usually by closing the ring. Open rings can be prepared and diagnosed before activation."
+    },
+    {
+      "id": "inscription-quality",
+      "displayName": "Inscription Quality",
+      "summary": "Size and neatness matter. The emulator turns ring, sigil, sign, and unknown-mark quality into spell quality, stability, duration, and scale."
+    },
+    {
+      "id": "compound-rings",
+      "displayName": "Compound Rings",
+      "summary": "A spell can wrap or combine rings to merge effects. The emulator treats extra circles as secondary rings whose symbols contribute to one compound spell."
+    },
+    {
+      "id": "mixed-sigils",
+      "displayName": "Mixed Sigils",
+      "summary": "Some spells use two or more sigils. The emulator compiles additional recognized sigils into weighted element blends instead of rejecting them."
+    },
+    {
+      "id": "forbidden-safety",
+      "displayName": "Forbidden Safety",
+      "summary": "Forbidden magic includes effects on living bodies and reality-warping or highly dangerous effects. The emulator lists these as lore only and does not attempt to simulate body-targeting magic."
+    }
+  ],
+  "families": [
+    {
+      "id": "fire",
+      "displayName": "Fire Spells",
+      "kind": "element",
+      "element": "fire",
+      "summary": "Fire spells are based around a fire sigil.",
+      "spellNames": [
+        "Phantasmal Fireball",
+        "Pyreball Seal",
+        "Snugstone Spell"
+      ]
+    },
+    {
+      "id": "water",
+      "displayName": "Water Spells",
+      "kind": "element",
+      "element": "water",
+      "summary": "Water spells are based around a water sigil.",
+      "spellNames": [
+        "Rainbringer Seal",
+        "Rising Platform of Water",
+        "Rising Wave",
+        "Water Bolt",
+        "Watershot Seal",
+        "Water Horse Spell",
+        "Water Pen"
+      ]
+    },
+    {
+      "id": "earth",
+      "displayName": "Earth Spells",
+      "kind": "element",
+      "element": "earth",
+      "summary": "Earth spells are based around an earth sigil.",
+      "spellNames": [
+        "Boulder Stretch Rope",
+        "Integration",
+        "Sand Bridge",
+        "Sand Cage",
+        "Serpent's Bed of Sand",
+        "Wall Breaker Seal"
+      ]
+    },
+    {
+      "id": "wind",
+      "displayName": "Wind Spells",
+      "kind": "element",
+      "element": "wind",
+      "summary": "Wind spells are based around one or more wind sigil varieties.",
+      "spellNames": [
+        "Flying Puppet of Diversion",
+        "Grasping Wind",
+        "Skysoaring Seal",
+        "Sylph Shoes Seal",
+        "Wind Wall",
+        "Pegasus Carriage Spell"
+      ]
+    },
+    {
+      "id": "light",
+      "displayName": "Light Spells",
+      "kind": "element",
+      "element": "light",
+      "summary": "Light magic is described as related to fire magic, but is distinct enough to be treated as its own spell family.",
+      "spellNames": [
+        "Bird of Light Beacon",
+        "Floatglow Lamp",
+        "Light Beam",
+        "Light Tracer"
+      ]
+    },
+    {
+      "id": "mixed",
+      "displayName": "Mixed Spells",
+      "kind": "composition",
+      "summary": "Mixed spells use two or more separate sigils.",
+      "spellNames": [
+        "Beast Repellent",
+        "Cloak Spell",
+        "Floating Drops",
+        "Rainflinger (Drying)",
+        "Rainflinger (Normal)"
+      ]
+    },
+    {
+      "id": "niche",
+      "displayName": "Niche Spells",
+      "kind": "composition",
+      "summary": "Niche spells do not fit the five main elemental categories and are not necessarily forbidden.",
+      "spellNames": [
+        "Billowing Collection",
+        "Capture Pennant Spell",
+        "Crystal Ribbon",
+        "Crystal Shard",
+        "Floating Expansion",
+        "Gathering Shadows",
+        "Inverted Scalewolf Curse",
+        "Memory Erasure",
+        "Mirror Spell",
+        "Repetition Seal",
+        "Reverse Time Spells",
+        "Sealchair Glyph",
+        "Spell of Reduction",
+        "Windowway Spell"
+      ]
+    },
+    {
+      "id": "unknown",
+      "displayName": "Unknown Spells",
+      "kind": "lore",
+      "summary": "Unknown spells lack enough visible or reliable glyph information to classify confidently.",
+      "spellNames": [
+        "Beldaruit's Smoke Sculpture",
+        "Forbidden Flames",
+        "Forbidden Glow",
+        "Spike",
+        "Tracking Spell",
+        "Puppet Bag's Spell"
+      ]
+    },
+    {
+      "id": "forbidden",
+      "displayName": "Forbidden Spells",
+      "kind": "safety",
+      "summary": "Forbidden spells are listed as lore references only. The emulator avoids body-targeting or reality-warping simulation claims.",
+      "spellNames": [
+        "Anti Scalewolf Curse",
+        "Illusory Labyrinth",
+        "Petrification",
+        "Scalewolf Curse",
+        "Twinned Bottles Spell"
+      ]
+    }
+  ]
+}

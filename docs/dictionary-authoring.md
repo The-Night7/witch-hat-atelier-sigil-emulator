@@ -23,8 +23,9 @@ This document explains how to add or edit sigils, signs, and sample spells in:
 - `src/dictionary/sigils.json`
 - `src/dictionary/signs.json`
 - `src/dictionary/sample-spells.json`
+- `src/dictionary/spell-lore.json`
 
-The sigil and sign dictionaries define both recognition data and spell meaning. Recognition mostly comes from `strokeTemplate`; semantics tell the compiler what the recognized symbol should do. Sample spells are drawing references shown in the Dictionary panel, not compiler grammar.
+The sigil and sign dictionaries define both recognition data and spell meaning. Recognition mostly comes from `strokeTemplate`; semantics tell the compiler what the recognized symbol should do. Sample spells are drawing references shown in the Dictionary panel, not compiler grammar. Spell lore is a structured reference catalog for wiki-backed spell families and construction principles.
 
 ## Entry Types
 
