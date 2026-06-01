@@ -76,7 +76,7 @@ test("keeps a short closing stroke in sealed ring ids", () => {
   assert.deepEqual(sealed.strokeIds, ["s1", "s2"]);
 });
 
-test("reports multiple open rings as unsupported", () => {
+test("reports multiple open rings as secondary spell circles", () => {
   const firstRing = openRingAt("s1", 260, 300);
   const secondRing = openRingAt("s2", 620, 300);
   const detected = detectRing([firstRing, secondRing], null, CONFIG);
@@ -84,10 +84,12 @@ test("reports multiple open rings as unsupported", () => {
   assert.equal(detected.found, true);
   assert.equal(detected.complete, false);
   assert.equal(detected.activationEvent, false);
-  assert.equal(detected.unsupportedMultipleRings.length, 1);
+  assert.equal(detected.unsupportedMultipleRings.length, 0);
+  assert.equal(detected.secondaryRings.length, 1);
+  assert.equal(detected.secondaryRings[0].id, "r2");
 });
 
-test("does not activate when closing one of multiple rings", () => {
+test("can activate when closing a multi-circle spell", () => {
   const firstRing = openRingAt("s1", 260, 300);
   const secondRing = openRingAt("s2", 620, 300);
   const firstClosingStroke = closingStrokeAt("s3", 260, 300);
@@ -95,8 +97,9 @@ test("does not activate when closing one of multiple rings", () => {
   const sealed = detectRing([firstRing, secondRing, firstClosingStroke], prepared, CONFIG);
 
   assert.equal(sealed.found, true);
-  assert.equal(sealed.activationEvent, false);
-  assert.equal(sealed.unsupportedMultipleRings.length, 1);
+  assert.equal(sealed.activationEvent, true);
+  assert.equal(sealed.unsupportedMultipleRings.length, 0);
+  assert.equal(sealed.secondaryRings.length, 1);
 });
 
 test("ignores outside strokes when sealing a prepared ring", () => {
@@ -183,4 +186,63 @@ test("classifies symbols inside a detected ring without crashing", () => {
   assert.ok(result.recognitions[0].diagnostics);
   assert.equal(result.glyphAST.signs[0].id, "column");
   assert.equal(Object.hasOwn(result.glyphAST.signs[0], "diagnostics"), false);
+});
+
+test("classifies symbols inside secondary rings", () => {
+  const firstRing = openRingAt("s1", 260, 300);
+  const firstClosingStroke = closingStrokeAt("s2", 260, 300);
+  const secondRing = openRingAt("s3", 620, 300);
+  const secondClosingStroke = closingStrokeAt("s4", 620, 300);
+  const columnStem = {
+    id: "s5",
+    points: [
+      { x: 620, y: 285 },
+      { x: 620, y: 365 }
+    ]
+  };
+  const columnBase = {
+    id: "s6",
+    points: [
+      { x: 580, y: 365 },
+      { x: 660, y: 365 }
+    ]
+  };
+  const dictionary = {
+    sigils: [],
+    signs: [
+      {
+        id: "column",
+        displayName: "Column",
+        allowedLayers: ["center", "middle", "outer"],
+        semantic: {
+          manifestation: "column",
+          directionMode: "inward"
+        },
+        strokeTemplate: {
+          sourceAspectRatio: 1,
+          strokes: [
+            [
+              { x: 0.5, y: 0.12 },
+              { x: 0.5, y: 0.8 }
+            ],
+            [
+              { x: 0.18, y: 0.8 },
+              { x: 0.82, y: 0.8 }
+            ]
+          ]
+        }
+      }
+    ]
+  };
+
+  const result = classifyDrawing({
+    strokes: [firstRing, firstClosingStroke, secondRing, secondClosingStroke, columnStem, columnBase],
+    previousRing: null,
+    dictionary,
+    config: CONFIG
+  });
+
+  assert.equal(result.ring.complete, true);
+  assert.equal(result.ring.secondaryRings.length, 1);
+  assert.ok(result.glyphAST.signs.some((sign) => sign.id === "column" && sign.ringId));
 });

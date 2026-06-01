@@ -215,10 +215,6 @@ export function compileSpell({ glyphAST, config }) {
     return invalidSpell("No ring detected", glyphAST ?? { globalMetrics: {} });
   }
 
-  if (glyphAST.ring.unsupportedMultipleRings?.length) {
-    return invalidSpell("Multiple rings detected", glyphAST, [GLYPH_WARNINGS.unsupportedMultipleRings]);
-  }
-
   const primary = glyphAST.primarySigil;
   if (!primary) {
     return invalidSpell("Invalid spell", glyphAST, [GLYPH_WARNINGS.missingPrimarySigil]);

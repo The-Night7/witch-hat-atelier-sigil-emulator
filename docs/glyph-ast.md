@@ -4,7 +4,7 @@
 
 `AST` is the same programming-language term used by compilers for parsed source code structure. This project uses the term by analogy: the glyph drawing is parsed into a structured representation before it is compiled into `SpellIR`.
 
-The current structure is mostly flat because the playable slice supports one enclosing ring. Future nested rings may make the tree shape more literal, but nested glyphs are not part of the current contract.
+The current structure is mostly flat, with one leading ring and optional secondary rings. Secondary-ring symbols are still merged into the top-level candidate, sigil, sign, and unknown lists.
 
 ## Ownership
 
@@ -18,7 +18,7 @@ The current structure is mostly flat because the playable slice supports one enc
 | --- | --- |
 | `type` | Always `GlyphAST`. |
 | `version` | App contract version from `CONFIG.appVersion`. |
-| `ring` | The detected enclosing ring, or a not-found ring object. |
+| `ring` | The detected leading ring, or a not-found ring object. Secondary rings live under `ring.secondaryRings`. |
 | `candidates` | Public symbol candidates created from grouped strokes. Raw stroke point arrays are omitted. |
 | `primarySigil` | Best recognized sigil used as the primary spell source, or `null`. |
 | `unsupportedMultipleSigils` | Extra recognized sigils beyond `primarySigil`. Kept for backward compatibility with older diagnostics; the current compiler treats them as secondary blend sigils. |
@@ -47,12 +47,13 @@ The current structure is mostly flat because the playable slice supports one enc
 | `lineSmoothness` | Ring stroke smoothness estimate. |
 | `neatness` | Combined ring quality score. |
 | `overdrawAmount` | Extra boundary ink beyond expected circumference. |
-| `unsupportedMultipleRings` | Additional distinct ring candidates. The current playable slice does not compile these. |
-| `unsupportedNestedRings` | Detected inner rings that are not compiled in the current playable slice. |
+| `secondaryRings` | Additional distinct circles that can host symbols for the same compound spell. |
+| `unsupportedMultipleRings` | Reserved compatibility list for ring layouts that cannot be compiled. Normally empty in the current multi-circle model. |
+| `unsupportedNestedRings` | Detected inner rings that may need special nested semantics later. They can still be parsed as secondary rings. |
 
 `ring.complete` answers "is the boundary closed". `SpellIR.active` answers "is there a valid spell firing". Closed invalid rings stay closed in `GlyphAST`, but compile to inactive invalid `SpellIR`.
 
-When `unsupportedMultipleRings` is non-empty, the app treats the drawing as invalid for the current one-ring spell model. The UI locks further drawing, but Undo and Clear can still recover the canvas.
+The leading ring drives `SpellIR.active` and the effect portal. Secondary rings contribute recognized sigils and signs, but do not create separate active effects yet.
 
 ## Candidate Fields
 
@@ -61,6 +62,7 @@ When `unsupportedMultipleRings` is non-empty, the app treats the drawing as inva
 | Field | Meaning |
 | --- | --- |
 | `candidateId` | Stable id within the current parse, such as `c1`. |
+| `ringId` | Ring-local context used for placement and recognition, such as `r1` or `r2`. |
 | `strokeIds` | Source stroke ids included in the candidate. |
 | `rawStrokeCount` | Number of strokes before candidate cleanup. |
 | `cleanedStrokeCount` | Number of cleaned strokes in the candidate. |
@@ -90,6 +92,7 @@ Common fields include:
 | Field | Meaning |
 | --- | --- |
 | `candidateId` | Candidate that produced the recognition. |
+| `ringId` | Ring-local context inherited from the candidate. |
 | `strokeIds` | Source stroke ids for the recognized symbol. |
 | `id` | Dictionary id. |
 | `kind` | `sigil` or `sign`. |

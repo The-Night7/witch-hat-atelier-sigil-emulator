@@ -18,7 +18,7 @@ function normalizePoint(point, ring) {
 // Classify each stroke by where its points sit relative to the detected ring (outside, inside, etc.).
 // Ring strokes are reserved as boundary ink, inside strokes can become symbols,
 // and mostly outside or crossing strokes are kept out of symbol grouping.
-export function classifyStrokesAgainstRing(strokes, ring, config) {
+export function classifyStrokesAgainstRing(strokes, ring, config, reservedStrokeIds = []) {
   if (!ring.found) {
     return strokes.map((stroke) => ({
       strokeId: stroke.id,
@@ -31,7 +31,7 @@ export function classifyStrokesAgainstRing(strokes, ring, config) {
     }));
   }
 
-  const ringStrokeIds = new Set(ring.strokeIds);
+  const ringStrokeIds = new Set([...(ring.strokeIds ?? []), ...reservedStrokeIds]);
 
   return strokes.map((stroke) => {
     if (ringStrokeIds.has(stroke.id)) {

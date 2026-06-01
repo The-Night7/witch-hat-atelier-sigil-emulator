@@ -355,7 +355,7 @@ test("rejects missing or unsupported primary elements", () => {
   assert.ok(unsupportedElement.warnings.includes(GLYPH_WARNINGS.primaryElementUnsupported));
 });
 
-test("rejects unsupported multiple rings", () => {
+test("keeps compiling when additional rings are present", () => {
   const spellIR = compileSpell({
     glyphAST: glyphAST({
       unsupportedMultipleRings: [
@@ -371,11 +371,11 @@ test("rejects unsupported multiple rings", () => {
     config: CONFIG
   });
 
-  assert.equal(spellIR.valid, false);
+  assert.equal(spellIR.valid, true);
   assert.equal(spellIR.active, false);
-  assert.equal(spellIR.prepared, false);
-  assert.equal(spellIR.status, "Multiple rings detected");
-  assert.ok(spellIR.warnings.includes(GLYPH_WARNINGS.unsupportedMultipleRings));
+  assert.equal(spellIR.prepared, true);
+  assert.equal(spellIR.status, "Prepared spell");
+  assert.ok(!spellIR.warnings.includes(GLYPH_WARNINGS.unsupportedMultipleRings));
 });
 
 test("composes multiple recognized sigils into an elemental blend", () => {

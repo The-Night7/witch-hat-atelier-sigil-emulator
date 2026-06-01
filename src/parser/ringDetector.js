@@ -419,7 +419,13 @@ function buildOpenRingCandidates(strokes, config) {
       continue;
     }
     const ringStrokes = collectOpenRingStrokes(firstPass, strokes, config);
-    const measured = measureRing(ringStrokes, config, firstPass);
+    const localTopology = analyzeTopologicalClosure(ringStrokes, config);
+    const measured = measureRing(
+      ringStrokes,
+      config,
+      firstPass,
+      localTopology.closed ? localTopology : null
+    );
     const score = scoreCandidate(measured, config);
     if (
       measured &&
@@ -492,6 +498,25 @@ function summarizeUnsupportedRing(candidate) {
   };
 }
 
+function summarizeSecondaryRing(candidate, index) {
+  return {
+    id: `r${index + 2}`,
+    found: true,
+    center: candidate.center,
+    radius: candidate.radius,
+    complete: candidate.complete,
+    completeness: candidate.completeness,
+    coverageRatio: candidate.coverageRatio,
+    gap: candidate.gap,
+    gapArcLength: candidate.gapArcLength,
+    roundness: candidate.roundness,
+    lineSmoothness: candidate.lineSmoothness,
+    neatness: candidate.neatness,
+    overdrawAmount: candidate.overdrawAmount,
+    strokeIds: candidate.strokeIds
+  };
+}
+
 // Ring detection combines a geometric prepared-ring pass with a topological
 // sealed-ring pass:
 // 1. Build open candidates by fitting circles to long seed strokes, gathering
@@ -503,7 +528,7 @@ function summarizeUnsupportedRing(candidate) {
 // 3. If the filtered closure pass did not produce a closed candidate, run the
 //    flood-fill closure test against all strokes.
 // 4. Merge duplicate candidates for the same physical ring, prefer complete
-//    rings, and report any additional distinct rings as unsupported.
+//    rings, and keep additional distinct rings as secondary spell circles.
 // 5. Emit activation only for the transition from a prepared open ring to a
 //    sealed ring, not for rings that are already closed on first detection.
 export function detectRing(strokes, previousRing, config) {
@@ -530,7 +555,8 @@ export function detectRing(strokes, previousRing, config) {
   candidates.sort((a, b) => Number(b.complete) - Number(a.complete) || b.score + b.radius * 0.001 - (a.score + a.radius * 0.001));
   const distinctRings = distinctRingCandidates(candidates);
   const ring = distinctRings[0];
-  const unsupportedMultipleRings = distinctRings.slice(1).map(summarizeUnsupportedRing);
+  const secondaryRings = distinctRings.slice(1).map(summarizeSecondaryRing);
+  const unsupportedMultipleRings = [];
   const unsupportedNestedRings = distinctRings
     .slice(1)
     .filter(
@@ -545,13 +571,14 @@ export function detectRing(strokes, previousRing, config) {
       previousRing?.found &&
       !previousRing.complete &&
       ring.complete &&
-      previousRing.completeness >= ACTIVATION_COMPLETENESS_FLOOR &&
-      unsupportedMultipleRings.length === 0
+      previousRing.completeness >= ACTIVATION_COMPLETENESS_FLOOR
   );
 
   return {
     ...ring,
+    id: "r1",
     activationEvent,
+    secondaryRings,
     unsupportedNestedRings,
     unsupportedMultipleRings
   };

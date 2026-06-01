@@ -33,7 +33,7 @@ This is an unofficial fan-made project for learning, experimentation, and apprec
 The app turns a freehand spell diagram into parser output, compiled spell behavior, and animated canvas effects.
 
 - Lets you draw spell diagrams on a paper-like canvas.
-- Detects one enclosing ring and distinguishes prepared versus active spells.
+- Detects a leading spell ring plus secondary circles and distinguishes prepared versus active spells.
 - Recognizes dictionary-backed primary sigils for fire, water, wind, earth, and light.
 - Recognizes signs that modify direction, levitation, convergence, force, spread, focus, range, duration, and stability.
 - Produces parser diagnostics, `GlyphAST`, and `SpellIR` output for inspection.
@@ -43,7 +43,7 @@ The app turns a freehand spell diagram into parser output, compiled spell behavi
 
 ## Current Limitations
 
-- The app supports one enclosing spell ring at a time. Multiple rings are detected as unsupported.
+- The app supports one leading spell ring plus secondary circles. Secondary circles can host their own sigils and signs.
 - The compiler selects one leading sigil, then blends additional recognized sigils into a multi-element spell.
 - Recognition is based on local stroke templates, so it works best with clean, deliberate drawings.
 - The recognizer is not perfect. Some valid-looking drawings may fail to match, and some rough drawings may need to be redrawn more clearly.

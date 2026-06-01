@@ -29,7 +29,7 @@ State combinations:
 
 There is no separate `ringActivated` field. Use `spellIR.active` for "valid spell is firing", use `GlyphAST.ring.complete` for "ring is closed", and use `pipeline.ring.activationEvent` for "this parse detected the closure transition".
 
-Multiple ring candidates compile to invalid `SpellIR` with `status: "Multiple rings detected"` because the current playable slice supports one enclosing ring only.
+Multiple ring candidates can compile as one compound `SpellIR`. The leading ring supplies activation and the effect portal; secondary rings contribute recognized sigils and signs through `GlyphAST`.
 
 Multiple recognized sigils compile to one valid `SpellIR` when every sigil maps to a supported element. `element` remains the leading element for compatibility, while `elements` and `elementBlend` describe the full mix.
 

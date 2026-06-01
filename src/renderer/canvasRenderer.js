@@ -13,10 +13,12 @@ function getActivatedStrokeIds(pipeline) {
     return new Set();
   }
 
-  const { ring, primarySigil, signs } = pipeline.glyphAST;
+  const { ring, primarySigil, unsupportedMultipleSigils, signs } = pipeline.glyphAST;
   return new Set([
     ...(ring?.strokeIds ?? []),
+    ...((ring?.secondaryRings ?? []).flatMap((secondaryRing) => secondaryRing.strokeIds ?? [])),
     ...(primarySigil?.strokeIds ?? []),
+    ...((unsupportedMultipleSigils ?? []).flatMap((sigil) => sigil.strokeIds ?? [])),
     ...((signs ?? []).flatMap((sign) => sign.strokeIds ?? []))
   ]);
 }
@@ -42,6 +44,9 @@ export class CanvasRenderer {
 
     if (showGuides && pipeline?.ring?.found) {
       drawRingDebug(this.glyphCtx, pipeline.ring);
+      for (const secondaryRing of pipeline.ring.secondaryRings ?? []) {
+        drawRingDebug(this.glyphCtx, secondaryRing);
+      }
     }
 
     if (showDebug) {

@@ -5,6 +5,8 @@ This file is the compact contract for parser, compiler, and renderer behavior. U
 ## Core Shape Rules
 
 - The ring is the spell boundary. A complete ring activates the spell; a prepared open ring can still show diagnostics.
+- Additional circles are secondary spell rings. Symbols inside them are parsed in that ring's own local coordinate system, then merged into the same spell.
+- The leading ring still provides the effect portal and activation state.
 - Ring neatness contributes to spell quality and stability.
 - The compiler chooses one primary sigil as the leading element or element variant.
 - Additional recognized sigils are compiled as an elemental blend instead of invalidating the spell.
@@ -24,7 +26,7 @@ This file is the compact contract for parser, compiler, and renderer behavior. U
 - Neatness matters at every level: ring, sigil, signs, and overall spell quality.
 - Neater active spells last longer. Messy but recognizable active spells can fire as a short burst.
 - Unknown, ambiguous, contaminated, and messy symbols lower stability or prevent activation when they affect the primary sigil.
-- Multiple distinct rings are unsupported in the current playable slice. The drawing becomes invalid until the extra ring is undone or the canvas is cleared.
+- Multiple distinct rings can coexist as one compound spell. Very rough or ambiguous extra circles may still lower recognition quality through unknown marks.
 - Sample spells in the Dictionary panel are visual references only. They are not parser fixtures and do not inject strokes into the canvas.
 
 ## Recognition Terms

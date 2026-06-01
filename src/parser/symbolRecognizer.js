@@ -329,6 +329,7 @@ function scoreByStrokeTemplate(kind, entry, candidate, features) {
 function publicCandidate(candidate) {
   return {
     candidateId: candidate.candidateId,
+    ringId: candidate.ringId ?? null,
     strokeIds: candidate.strokeIds,
     rawStrokeCount: candidate.rawStrokeCount,
     layer: candidate.layer,

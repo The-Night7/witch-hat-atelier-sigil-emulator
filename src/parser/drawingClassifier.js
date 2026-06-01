@@ -123,6 +123,47 @@ function stripRecognitionDiagnostics(recognition) {
   return publicRecognition;
 }
 
+function spellRings(ring) {
+  if (!ring?.found) {
+    return [];
+  }
+  return [ring, ...(ring.secondaryRings ?? [])].map((entry, index) => ({
+    ...entry,
+    id: entry.id ?? `r${index + 1}`
+  }));
+}
+
+function allRingStrokeIds(rings) {
+  return [...new Set(rings.flatMap((ring) => ring.strokeIds ?? []))];
+}
+
+function buildCandidatesForRings(cleanedStrokes, ring, config) {
+  const rings = spellRings(ring);
+  const reservedStrokeIds = allRingStrokeIds(rings);
+  const classifications = [];
+  const candidates = [];
+
+  rings.forEach((currentRing) => {
+    const ringClassifications = classifyStrokesAgainstRing(cleanedStrokes, currentRing, config, reservedStrokeIds)
+      .map((classification) => ({
+        ...classification,
+        ringId: currentRing.id
+      }));
+    const ringCandidates = buildSymbolCandidates(cleanedStrokes, ringClassifications, currentRing, config);
+
+    classifications.push(...ringClassifications);
+    candidates.push(...ringCandidates.map((candidate) => ({ ...candidate, ringId: currentRing.id })));
+  });
+
+  return {
+    classifications,
+    candidates: candidates.map((candidate, index) => ({
+      ...candidate,
+      candidateId: `c${index + 1}`
+    }))
+  };
+}
+
 function warningList(ring, primarySigil, unsupportedMultipleSigils, unknowns, recognitions) {
   const warnings = [];
   if (!ring.found) {
@@ -188,8 +229,7 @@ export function classifyDrawing({ strokes, previousRing = null, dictionary, conf
     };
   }
 
-  const classifications = classifyStrokesAgainstRing(cleanedStrokes, ring, config);
-  const candidates = buildSymbolCandidates(cleanedStrokes, classifications, ring, config);
+  const { classifications, candidates } = buildCandidatesForRings(cleanedStrokes, ring, config);
   const recognitions = recognizeCandidates(candidates, dictionary, config);
   const sigils = recognizedSigils(recognitions);
   const primarySigil = selectPrimarySigil(sigils);
