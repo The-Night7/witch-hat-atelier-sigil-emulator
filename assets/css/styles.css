@@ -889,6 +889,10 @@ body:not(.sigil-maker-page) .app-shell {
   stroke-linejoin: round;
 }
 
+.reference-card-sigil .reference-preview polyline {
+  stroke-width: 2.35;
+}
+
 .reference-card-header {
   display: flex;
   align-items: baseline;

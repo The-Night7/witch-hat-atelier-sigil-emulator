@@ -67,7 +67,7 @@ function renderReferenceCard(entry, kind) {
       `
       : "";
   return `
-    <article class="reference-card ${hasStrokeReference ? "has-template" : ""}">
+    <article class="reference-card reference-card-${kind} ${hasStrokeReference ? "has-template" : ""}">
       ${renderStrokeTemplatePreview(entry)}
       <div>
         <div class="reference-card-header">
