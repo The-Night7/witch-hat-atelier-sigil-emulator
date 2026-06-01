@@ -71,8 +71,40 @@ Signs modify how the primary element manifests. They affect `manifestations`, di
 Current sign ids:
 
 - `column`
+- `dispersion`
 - `levitation`
+- `pull`
+- `crush`
+- `float`
+- `region`
 - `convergence`
+- `collection`
+- `billow`
+- `repetition`
+- `weave`
+- `cool`
+- `strengthen`
+- `sights-set`
+- `entwine`
+- `sign-of-wind`
+- `aeriforms-defined`
+- `gather`
+- `glaives`
+- `diamond`
+- `window`
+- `enlarge`
+- `crosshair`
+- `radial`
+- `bolt`
+- `eye`
+- `vision`
+- `bend`
+- `rain`
+- `puppet`
+- `bind`
+- `orb`
+- `purify`
+- `link`
 
 ### Sample Spells
 
@@ -241,8 +273,40 @@ The sign's main behavior. The compiler aggregates signs into `SpellIR.manifestat
 Current values:
 
 - `column`
+- `dispersion`
 - `levitation`
+- `pull`
+- `crush`
+- `float`
+- `region`
 - `convergence`
+- `collection`
+- `billow`
+- `repetition`
+- `weave`
+- `cool`
+- `strengthen`
+- `sights-set`
+- `entwine`
+- `sign-of-wind`
+- `aeriforms-defined`
+- `gather`
+- `glaives`
+- `diamond`
+- `window`
+- `enlarge`
+- `crosshair`
+- `radial`
+- `bolt`
+- `eye`
+- `vision`
+- `bend`
+- `rain`
+- `puppet`
+- `bind`
+- `orb`
+- `purify`
+- `link`
 
 ### `semantic.directionMode`
 
