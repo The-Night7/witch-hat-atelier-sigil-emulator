@@ -941,6 +941,20 @@ body:not(.sigil-maker-page) .app-shell {
   font-size: 12px;
 }
 
+.load-spell-button {
+  margin-top: 8px;
+  width: 100%;
+  font-size: 12px;
+  min-height: 28px;
+  background: rgba(42, 121, 135, 0.1);
+  border-color: rgba(42, 121, 135, 0.3);
+  color: var(--teal);
+}
+
+.load-spell-button:hover {
+  background: rgba(42, 121, 135, 0.2);
+}
+
 .reference-source {
   margin-top: 8px;
   color: var(--muted-ink);

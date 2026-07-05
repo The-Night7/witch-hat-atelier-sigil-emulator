@@ -1,3 +1,20 @@
+function formatSemanticValue(val) {
+  const pct = Math.round((val ?? 0) * 100);
+  return pct >= 0 ? `+${pct}%` : `${pct}%`;
+}
+
+function renderSignSemanticRows(semantic) {
+  if (!semantic) return "";
+  const rows = [
+    semantic.manifestation ? `<div><dt>Manifestation</dt><dd>${escapeHtml(semantic.manifestation)}</dd></div>` : "",
+    semantic.force !== undefined ? `<div><dt>Force</dt><dd>${formatSemanticValue(semantic.force)}</dd></div>` : "",
+    semantic.focus !== undefined ? `<div><dt>Focus</dt><dd>${formatSemanticValue(semantic.focus)}</dd></div>` : "",
+    semantic.spread !== undefined ? `<div><dt>Spread</dt><dd>${formatSemanticValue(semantic.spread)}</dd></div>` : "",
+    semantic.range !== undefined ? `<div><dt>Range</dt><dd>${formatSemanticValue(semantic.range)}</dd></div>` : ""
+  ].filter(Boolean);
+  return rows.join("");
+}
+
 function escapeHtml(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -57,6 +74,7 @@ function renderReferenceCard(entry, kind) {
   const elementText = kind === "sigil" && entry.element ? entry.element : "";
   const elementBadge = elementText ? `<span>${escapeHtml(elementText)}</span>` : "";
   const hasStrokeReference = Boolean(getStrokeTemplate(entry)?.strokes?.length);
+  const semanticRows = kind === "sign" ? renderSignSemanticRows(entry.semantic) : "";
   const sourceDetails =
     kind === "sign" && entry.sourceNotes
       ? `
@@ -76,6 +94,7 @@ function renderReferenceCard(entry, kind) {
         </div>
         <dl>
           <div><dt>Layers</dt><dd>${escapeHtml(layerText)}</dd></div>
+          ${semanticRows}
           <div><dt>Recognition</dt><dd>${escapeHtml(entryRecognitionLabel(entry))}</dd></div>
         </dl>
         ${sourceDetails}
@@ -84,9 +103,12 @@ function renderReferenceCard(entry, kind) {
   `;
 }
 
-function renderSampleSpellCard(sample) {
+function renderSampleSpellCard(sample, showLoad) {
   const manifestations = sample.manifestations?.length ? sample.manifestations.join(", ") : "none";
   const hasStrokeReference = Boolean(sample.strokes?.length);
+  const loadButton = showLoad
+    ? `<button type="button" class="load-spell-button" data-sample-id="${escapeHtml(sample.id)}">Load on canvas</button>`
+    : "";
   return `
     <article class="reference-card ${hasStrokeReference ? "has-template" : ""}">
       ${renderStrokePreview(sample.strokes)}
@@ -100,6 +122,7 @@ function renderSampleSpellCard(sample) {
           <div><dt>Element</dt><dd>${escapeHtml(sample.element ?? "none")}</dd></div>
           <div><dt>Manifestations</dt><dd>${escapeHtml(manifestations)}</dd></div>
         </dl>
+        ${loadButton}
       </div>
     </article>
   `;
@@ -186,14 +209,24 @@ function renderLoreReference(spellLore, spellRecipes = []) {
   ].join("");
 }
 
-export function renderDictionaryReference(elements, dictionary) {
+export function renderDictionaryReference(elements, dictionary, { onLoadSample } = {}) {
   if (!dictionary) {
     return;
   }
 
   elements.sampleSpellReferenceCards.innerHTML = (dictionary.sampleSpells ?? [])
-    .map((sample) => renderSampleSpellCard(sample))
+    .map((sample) => renderSampleSpellCard(sample, Boolean(onLoadSample)))
     .join("");
+
+  if (onLoadSample) {
+    elements.sampleSpellReferenceCards.querySelectorAll(".load-spell-button").forEach((btn) => {
+      const id = btn.dataset.sampleId;
+      btn.addEventListener("click", () => {
+        const sample = (dictionary.sampleSpells ?? []).find((s) => s.id === id);
+        if (sample) onLoadSample(sample);
+      });
+    });
+  }
   elements.sigilReferenceCards.innerHTML = (dictionary.sigils ?? [])
     .map((entry) => renderReferenceCard(entry, "sigil"))
     .join("");

@@ -78,6 +78,25 @@ function animationFrame(timestamp) {
   requestAnimationFrame(animationFrame);
 }
 
+function loadSample(sample) {
+  if (!sample?.strokes?.length) return;
+  const canvas = elements.glyphCanvas;
+  store.clear();
+  previousRing = null;
+  sample.strokes.forEach((strokePoints) => {
+    if (strokePoints.length < 2) return;
+    const now = performance.now();
+    const scaledPoints = strokePoints.map((p, i) => ({
+      x: p.x * canvas.width,
+      y: p.y * canvas.height,
+      pressure: 0.5,
+      t: now + i
+    }));
+    store.addStroke(scaledPoints);
+  });
+  recompute();
+}
+
 function setupControls() {
   elements.undoButton.addEventListener("click", () => {
     store.undo();
@@ -102,6 +121,17 @@ function setupControls() {
   });
 
   updateDiagnosticsMode(elements);
+
+  document.addEventListener("keydown", (event) => {
+    if ((event.ctrlKey || event.metaKey) && event.key === "z" && !event.shiftKey) {
+      const ringClosed = Boolean(pipeline?.ring?.complete);
+      if (ringClosed || store.count() === 0) return;
+      event.preventDefault();
+      store.undo();
+      previousRing = null;
+      recompute();
+    }
+  });
 }
 
 async function init() {
@@ -120,7 +150,7 @@ async function init() {
 
   try {
     dictionary = await loadDictionary();
-    renderDictionaryReference(elements, dictionary);
+    renderDictionaryReference(elements, dictionary, { onLoadSample: loadSample });
     capture.enable();
     recompute();
     requestAnimationFrame(animationFrame);

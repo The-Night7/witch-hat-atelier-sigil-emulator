@@ -120,7 +120,12 @@ export function updateSummary({ elements, store, capture, pipeline, spellIR }) {
   elements.spellNameValue.textContent = formatRecognizedSpell(spellIR);
   elements.elementValue.textContent = formatElements(spellIR);
   elements.manifestationValue.textContent = formatManifestations(spellIR);
+  const duration = spellIR?.duration ?? 0;
+  elements.durationValue.textContent = duration > 0 ? `${duration.toFixed(1)} s` : "—";
   updateMeter(elements.qualityMeter, elements.qualityMeterValue, spellIR?.quality ?? 0);
   updateMeter(elements.stabilityMeter, elements.stabilityMeterValue, spellIR?.stability ?? 0);
   updateMeter(elements.forceMeter, elements.forceMeterValue, spellIR?.force ?? 0);
+  updateMeter(elements.focusMeter, elements.focusMeterValue, spellIR?.focus ?? 0);
+  updateMeter(elements.spreadMeter, elements.spreadMeterValue, spellIR?.spread ?? 0);
+  updateMeter(elements.rangeMeter, elements.rangeMeterValue, spellIR?.range ?? 0);
 }

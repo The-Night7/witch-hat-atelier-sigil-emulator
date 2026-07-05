@@ -30,7 +30,8 @@ export function setupTabs(elements) {
   const dictionaryPanels = [
     elements.sampleSpellReferencePanel,
     elements.sigilReferencePanel,
-    elements.signReferencePanel
+    elements.signReferencePanel,
+    elements.loreReferencePanel
   ];
   elements.dictionaryTabButtons.forEach((button) => {
     button.addEventListener("click", () => {
