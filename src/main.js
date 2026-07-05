@@ -11,6 +11,7 @@ import { getElements } from "./ui/elements.js";
 import { renderDictionaryReference } from "./ui/dictionaryReferenceView.js";
 import { updateStatus, updateSummary } from "./ui/spellSummaryView.js";
 import { setupTabs } from "./ui/tabs.js";
+import { setupForge } from "./ui/spellForgeView.js";
 
 const elements = getElements();
 const store = createStrokeStore();
@@ -151,6 +152,7 @@ async function init() {
   try {
     dictionary = await loadDictionary();
     renderDictionaryReference(elements, dictionary, { onLoadSample: loadSample });
+    setupForge(elements, dictionary, CONFIG);
     capture.enable();
     recompute();
     requestAnimationFrame(animationFrame);

@@ -107,6 +107,7 @@
           <div class="panel-tabs">
             <button type="button" class="panel-tab-button active" data-panel-root="dictionaryRootPanel">Dictionary</button>
             <button type="button" class="panel-tab-button" data-panel-root="diagnosticRootPanel">Diagnostic</button>
+            <button type="button" class="panel-tab-button" data-panel-root="forgeRootPanel">Forge</button>
           </div>
 
           <section id="dictionaryRootPanel">
@@ -150,6 +151,99 @@
                 <div id="loreReferenceCards"></div>
               </div>
             </section>
+          </section>
+
+          <section id="forgeRootPanel" hidden>
+            <div class="forge-panel">
+
+              <div class="forge-composer">
+                <p class="panel-description">Select a sigil and any number of signs to compose a spell. The compiler will evaluate what the combination would do.</p>
+                <div class="forge-field">
+                  <label class="forge-label" for="forgeSigilSelect">Sigil (Element)</label>
+                  <select id="forgeSigilSelect" class="select-control">
+                    <option value="">— choose element —</option>
+                  </select>
+                </div>
+                <div class="forge-field">
+                  <div class="forge-field-row">
+                    <span class="forge-label">Signs</span>
+                    <select id="forgeSignPicker" class="select-control forge-sign-picker">
+                      <option value="">+ Add sign…</option>
+                    </select>
+                  </div>
+                  <div id="forgeSignList" class="forge-sign-list"></div>
+                </div>
+                <button type="button" id="forgeEvaluateButton" class="forge-evaluate-button">Evaluate spell</button>
+              </div>
+
+              <div id="forgeResultPanel" class="forge-result" hidden>
+                <div class="spell-state-status" id="forgeResultStatus">—</div>
+                <section class="summary-band forge-summary">
+                  <div>
+                    <span class="label">Spell</span>
+                    <strong id="forgeResultSpell">—</strong>
+                  </div>
+                  <div>
+                    <span class="label">Element</span>
+                    <strong id="forgeResultElement">—</strong>
+                  </div>
+                  <div>
+                    <span class="label">Manifestations</span>
+                    <strong id="forgeResultManifestation">—</strong>
+                  </div>
+                  <div>
+                    <span class="label">Duration</span>
+                    <strong id="forgeResultDuration">—</strong>
+                  </div>
+                </section>
+                <div class="forge-meters">
+                  <div class="meter-row">
+                    <span>Force</span>
+                    <div class="meter"><span id="forgeForce"></span></div>
+                    <span class="diagnostic-meter-value" id="forgeForceValue">—</span>
+                  </div>
+                  <div class="meter-row">
+                    <span>Focus</span>
+                    <div class="meter"><span id="forgeFocus"></span></div>
+                    <span class="diagnostic-meter-value" id="forgeFocusValue">—</span>
+                  </div>
+                  <div class="meter-row">
+                    <span>Spread</span>
+                    <div class="meter"><span id="forgeSpread"></span></div>
+                    <span class="diagnostic-meter-value" id="forgeSpreadValue">—</span>
+                  </div>
+                  <div class="meter-row">
+                    <span>Range</span>
+                    <div class="meter"><span id="forgeRange"></span></div>
+                    <span class="diagnostic-meter-value" id="forgeRangeValue">—</span>
+                  </div>
+                </div>
+                <p id="forgeDescription" class="forge-description" hidden></p>
+              </div>
+
+              <div id="forgeSavePanel" class="forge-save" hidden>
+                <h2 class="panel-section-title">Save spell</h2>
+                <div class="forge-field">
+                  <label class="forge-label" for="forgeSpellName">Name</label>
+                  <input type="text" id="forgeSpellName" class="forge-input" placeholder="e.g. Blazing Column">
+                </div>
+                <div class="forge-field">
+                  <label class="forge-label" for="forgeSpellNotes">Notes</label>
+                  <textarea id="forgeSpellNotes" class="forge-textarea" rows="2" placeholder="Describe what this spell does…"></textarea>
+                </div>
+                <details class="forge-github-details">
+                  <summary class="forge-details-summary">GitHub settings</summary>
+                  <div class="forge-field" style="margin-top: 8px">
+                    <label class="forge-label" for="forgeGithubToken">Personal Access Token</label>
+                    <input type="password" id="forgeGithubToken" class="forge-input" placeholder="ghp_…">
+                    <p class="panel-description forge-hint">Fine-grained token with Contents write access to this repository. Stored in localStorage.</p>
+                  </div>
+                </details>
+                <button type="button" id="forgeSaveButton" class="forge-save-button">Save to GitHub</button>
+                <div id="forgeSaveStatus" class="forge-save-status"></div>
+              </div>
+
+            </div>
           </section>
 
           <section id="diagnosticRootPanel" hidden>
