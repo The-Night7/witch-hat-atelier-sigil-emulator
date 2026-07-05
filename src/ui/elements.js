@@ -29,6 +29,7 @@ export function getElements() {
     spreadMeterValue: document.querySelector("#spreadMeterValue"),
     rangeMeter: document.querySelector("#rangeMeter"),
     rangeMeterValue: document.querySelector("#rangeMeterValue"),
+    spellOutcomeDescription: document.querySelector("#spellOutcomeDescription"),
     sampleSpellReferencePanel: document.querySelector("#sampleSpellReferencePanel"),
     sigilReferencePanel: document.querySelector("#sigilReferencePanel"),
     signReferencePanel: document.querySelector("#signReferencePanel"),

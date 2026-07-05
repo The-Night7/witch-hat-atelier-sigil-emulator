@@ -1,5 +1,6 @@
 import { GLYPH_WARNINGS } from "../parser/glyphWarnings.js";
 import { clamp } from "../utils/geometry.js";
+import { generateSpellDescription } from "../compiler/spellDescriptionGenerator.js";
 
 function updateMeter(element, valueElement, value) {
   const normalized = clamp(value ?? 0);
@@ -92,6 +93,21 @@ function formatRecognizedSpell(spellIR) {
           : "";
   const suffix = spell.safety === "forbidden" ? " (forbidden)" : "";
   return `${prefix}${spell.displayName}${suffix}${confidence}`;
+}
+
+export function updateSpellDescription({ elements, spellIR, pipeline, dictionary }) {
+  const isDrawnSpell = spellIR?.valid && (spellIR?.active || spellIR?.prepared);
+  if (!isDrawnSpell) {
+    elements.spellOutcomeDescription.hidden = true;
+    elements.spellOutcomeDescription.textContent = "";
+    return;
+  }
+  const recognizedSigns = (pipeline?.glyphAST?.signs ?? []).map(
+    (s) => (dictionary?.signs ?? []).find((d) => d.id === s.id) ?? s
+  );
+  const text = generateSpellDescription(spellIR, recognizedSigns);
+  elements.spellOutcomeDescription.textContent = text ?? "";
+  elements.spellOutcomeDescription.hidden = !text;
 }
 
 export function updateSummary({ elements, store, capture, pipeline, spellIR }) {

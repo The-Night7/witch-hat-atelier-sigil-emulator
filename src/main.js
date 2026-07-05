@@ -9,7 +9,7 @@ import { setupCanvasSizing as setupResponsiveCanvasSizing } from "./ui/canvasSiz
 import { updateDiagnostics, updateDiagnosticsMode } from "./ui/diagnosticsView.js";
 import { getElements } from "./ui/elements.js";
 import { renderDictionaryReference } from "./ui/dictionaryReferenceView.js";
-import { updateStatus, updateSummary } from "./ui/spellSummaryView.js";
+import { updateStatus, updateSummary, updateSpellDescription } from "./ui/spellSummaryView.js";
 import { setupTabs } from "./ui/tabs.js";
 import { setupForge } from "./ui/spellForgeView.js";
 
@@ -49,6 +49,7 @@ function recompute() {
   spellIR = compileSpell({ glyphAST: pipeline.glyphAST, dictionary, config: CONFIG });
   updateSummary({ elements, store, capture, pipeline, spellIR });
   updateDiagnostics({ elements, store, pipeline, spellIR });
+  updateSpellDescription({ elements, spellIR, pipeline, dictionary });
 }
 
 function animationFrame(timestamp) {

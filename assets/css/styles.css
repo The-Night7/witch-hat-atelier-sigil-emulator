@@ -1162,7 +1162,8 @@ body:not(.sigil-maker-page) .app-shell {
   display: inline;
 }
 
-.forge-description {
+.forge-description,
+.spell-outcome-description {
   font-size: 13px;
   line-height: 1.6;
   color: var(--ink);
@@ -1174,7 +1175,8 @@ body:not(.sigil-maker-page) .app-shell {
   margin: 0;
 }
 
-.forge-description[hidden] {
+.forge-description[hidden],
+.spell-outcome-description[hidden] {
   display: none;
 }
 
