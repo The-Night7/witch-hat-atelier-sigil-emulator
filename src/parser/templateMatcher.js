@@ -345,8 +345,8 @@ export function scoreStrokeTemplate(candidate, strokeTemplate, options = {}) {
   }
 
   const contaminationCap =
-    best.unexplainedInkRatio > 0.36 && best.templateCoveredRatio < 0.82
-      ? clamp(0.62 - (best.unexplainedInkRatio - 0.36) * 0.8, 0.2, 1)
+    best.unexplainedInkRatio > 0.52 && best.templateCoveredRatio < 0.80
+      ? clamp(0.68 - (best.unexplainedInkRatio - 0.52) * 0.7, 0.2, 1)
       : 1;
 
   return {

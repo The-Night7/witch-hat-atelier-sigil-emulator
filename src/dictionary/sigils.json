@@ -669,6 +669,13 @@
         ]
       ]
     },
+    "recognitionTemplate": {
+      "strokes": [
+        [{"x": 0.5, "y": 0.05}, {"x": 0.08, "y": 0.92}],
+        [{"x": 0.5, "y": 0.05}, {"x": 0.92, "y": 0.92}],
+        [{"x": 0.08, "y": 0.92}, {"x": 0.92, "y": 0.92}]
+      ]
+    },
     "recognitionRotationInvariant": false,
     "semantic": {
       "force": 0.12,
@@ -1397,6 +1404,12 @@
         ]
       ]
     },
+    "recognitionTemplate": {
+      "strokes": [
+        [{"x": 0.5, "y": 0.05}, {"x": 0.5, "y": 0.95}],
+        [{"x": 0.05, "y": 0.5}, {"x": 0.95, "y": 0.5}]
+      ]
+    },
     "recognitionRotationInvariant": false,
     "semantic": {
       "force": 0.02,
@@ -1985,6 +1998,12 @@
         ]
       ]
     },
+    "recognitionTemplate": {
+      "strokes": [
+        [{"x": 0.1, "y": 0.1}, {"x": 0.5, "y": 0.88}],
+        [{"x": 0.9, "y": 0.1}, {"x": 0.5, "y": 0.88}]
+      ]
+    },
     "recognitionRotationInvariant": false,
     "semantic": {
       "force": 0.02,
@@ -2363,6 +2382,14 @@
             "y": 0.8271
           }
         ]
+      ]
+    },
+    "recognitionTemplate": {
+      "strokes": [
+        [{"x": 0.5, "y": 0.05}, {"x": 0.93, "y": 0.5}],
+        [{"x": 0.93, "y": 0.5}, {"x": 0.5, "y": 0.95}],
+        [{"x": 0.5, "y": 0.95}, {"x": 0.07, "y": 0.5}],
+        [{"x": 0.07, "y": 0.5}, {"x": 0.5, "y": 0.05}]
       ]
     },
     "recognitionRotationInvariant": false,
@@ -2783,6 +2810,11 @@
             "y": 0.9052
           }
         ]
+      ]
+    },
+    "recognitionTemplate": {
+      "strokes": [
+        [{"x": 0.1, "y": 0.1}, {"x": 0.9, "y": 0.5}, {"x": 0.1, "y": 0.9}]
       ]
     },
     "recognitionRotationInvariant": false,

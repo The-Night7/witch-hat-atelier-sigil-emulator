@@ -873,6 +873,26 @@ body:not(.sigil-maker-page) .app-shell {
   align-items: center;
 }
 
+.reference-preview-pair {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reference-preview-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.reference-preview-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(36, 27, 22, 0.5);
+  line-height: 1;
+}
+
 .reference-preview {
   width: 82px;
   aspect-ratio: 1 / 1;
@@ -897,6 +917,10 @@ body:not(.sigil-maker-page) .app-shell {
 
 .reference-card-sigil .reference-preview polyline {
   stroke-width: 1.85;
+}
+
+.reference-preview-item--draw .reference-preview polyline {
+  stroke-width: 4;
 }
 
 .reference-card-header {

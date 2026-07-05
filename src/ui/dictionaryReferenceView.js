@@ -27,6 +27,10 @@ function getStrokeTemplate(entry) {
   return entry.strokeTemplate ?? null;
 }
 
+function getRecognitionTemplate(entry) {
+  return entry.recognitionTemplate ?? null;
+}
+
 function entryRecognitionLabel(entry) {
   return getStrokeTemplate(entry)?.strokes?.length ? "stroke reference" : "not configured";
 }
@@ -66,6 +70,24 @@ function renderStrokePreview(strokes) {
 }
 
 function renderStrokeTemplatePreview(entry) {
+  const recognitionTemplate = getRecognitionTemplate(entry);
+  if (recognitionTemplate?.strokes?.length) {
+    const strokePreview = renderStrokePreview(getStrokeTemplate(entry)?.strokes);
+    const recognitionPreview = renderStrokePreview(recognitionTemplate.strokes);
+    if (!strokePreview) return recognitionPreview;
+    return `
+      <div class="reference-preview-pair">
+        <div class="reference-preview-item">
+          <span class="reference-preview-label">Reference</span>
+          ${strokePreview}
+        </div>
+        <div class="reference-preview-item reference-preview-item--draw">
+          <span class="reference-preview-label">Draw this</span>
+          ${recognitionPreview}
+        </div>
+      </div>
+    `;
+  }
   return renderStrokePreview(getStrokeTemplate(entry)?.strokes);
 }
 

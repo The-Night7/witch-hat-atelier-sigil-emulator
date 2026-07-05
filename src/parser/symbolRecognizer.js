@@ -42,7 +42,7 @@ function rangeScore(value, min, max) {
 }
 
 function entryStrokeTemplate(entry) {
-  return entry.strokeTemplate ?? null;
+  return entry.recognitionTemplate ?? entry.strokeTemplate ?? null;
 }
 
 function recognitionThresholds(config) {
@@ -162,7 +162,7 @@ function candidateFeatures(candidate) {
 }
 
 function structuralCompatibility(kind, entry, candidate, features, templateMatch) {
-  const template = templateFeatures(entry.strokeTemplate);
+  const template = templateFeatures(entry.recognitionTemplate ?? entry.strokeTemplate);
   const aspectScore = aspectCompatibility(features.aspectRatio, template.aspectRatio, templateMatch.rotationDeg ?? 0);
   const overdrawCompatible =
     templateMatch.candidateExplainedRatio >= 0.9 &&
@@ -212,9 +212,9 @@ function isContaminatedMatch(candidate, best) {
     templateMatch.contaminationRisk >= 0.62 &&
     templateMatch.unexplainedInkRatio >= 0.34;
   const oversizedWeakMatch =
-    candidate.sizeNorm >= 0.42 &&
-    templateMatch.unexplainedInkRatio >= 0.26 &&
-    best.confidence < 0.7;
+    candidate.sizeNorm >= 0.56 &&
+    templateMatch.unexplainedInkRatio >= 0.44 &&
+    best.confidence < 0.62;
   const wrongRegionInk =
     templateMatch.forbiddenCellInkRatio >= 0.42 &&
     templateMatch.requiredCellCoverage <= 0.82 &&
@@ -321,7 +321,7 @@ function scoreByStrokeTemplate(kind, entry, candidate, features) {
     layerScore * 0.1 +
     sizeScore * 0.04 +
     candidate.neatness * 0.05;
-  const contextLiftCap = templateMatch.confidence + (kind === "sigil" ? 0.10 : 0.035);
+  const contextLiftCap = templateMatch.confidence + (kind === "sigil" ? 0.15 : 0.035);
   return {
     confidence: Math.min(
       clamp(Math.min(contextualScore, contextLiftCap) * simpleSignStructureMultiplier),
