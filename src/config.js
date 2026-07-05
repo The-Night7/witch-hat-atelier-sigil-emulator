@@ -39,7 +39,7 @@ export const CONFIG = {
   },
   compiler: {
     // 0..1 confidence; minimum primary sigil confidence before a spell is valid.
-    minimumPrimarySigilConfidence: 0.62,
+    minimumPrimarySigilConfidence: 0.55,
 
     // Count; unknown symbols above this increase instability.
     maxUnknownsBeforeInstability: 4

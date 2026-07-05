@@ -10,9 +10,9 @@ import {
 import { recognitionPlanForSymbol } from "./signRotation.js";
 import { scoreStrokeTemplate } from "./templateMatcher.js";
 
-const RECOGNITION_AMBIGUITY_GAP = 0.065;
+const RECOGNITION_AMBIGUITY_GAP = 0.05;
 const SIMPLE_SIGN_STROKE_LIMIT = 6;
-const SIMPLE_SIGN_MIN_TEMPLATE_COVERAGE = 0.78;
+const SIMPLE_SIGN_MIN_TEMPLATE_COVERAGE = 0.65;
 const templateFeatureCache = new WeakMap();
 
 function allowedLayerScore(entry, candidate) {
@@ -298,13 +298,13 @@ function scoreByStrokeTemplate(kind, entry, candidate, features) {
   const sizeScore = rangeScore(candidate.sizeNorm, 0.045, 0.46);
   const simpleSignStructureMultiplier =
     kind === "sign" && structuralMatch.templateStrokeCount <= SIMPLE_SIGN_STROKE_LIMIT
-      ? 0.42 + structuralMatch.strokeCountScore * 0.58
+      ? 0.70 + structuralMatch.strokeCountScore * 0.30
       : 1;
   const simpleSignIncompleteCap =
     kind === "sign" &&
     structuralMatch.templateStrokeCount <= SIMPLE_SIGN_STROKE_LIMIT &&
     templateMatch.templateCoveredRatio < SIMPLE_SIGN_MIN_TEMPLATE_COVERAGE
-      ? 0.44
+      ? 0.52
       : 1;
   const grossStructureMismatchCap =
     structuralMatch.score < 0.18 && templateMatch.templateCoveredRatio < 0.5 ? 0.44 : 1;
@@ -321,7 +321,7 @@ function scoreByStrokeTemplate(kind, entry, candidate, features) {
     layerScore * 0.1 +
     sizeScore * 0.04 +
     candidate.neatness * 0.05;
-  const contextLiftCap = templateMatch.confidence + 0.035;
+  const contextLiftCap = templateMatch.confidence + (kind === "sigil" ? 0.10 : 0.035);
   return {
     confidence: Math.min(
       clamp(Math.min(contextualScore, contextLiftCap) * simpleSignStructureMultiplier),
