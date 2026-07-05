@@ -270,6 +270,12 @@ body:not(.sigil-maker-page) .app-shell {
   flex-direction: column;
 }
 
+.control-panel {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+}
+
 .control-section {
   display: grid;
   gap: 10px;
