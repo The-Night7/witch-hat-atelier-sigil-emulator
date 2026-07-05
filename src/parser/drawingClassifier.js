@@ -139,7 +139,8 @@ function allRingStrokeIds(rings) {
 
 function buildCandidatesForRings(cleanedStrokes, ring, config) {
   const rings = spellRings(ring);
-  const reservedStrokeIds = allRingStrokeIds(rings);
+  const nestedRingStrokeIds = (ring.unsupportedNestedRings ?? []).flatMap((r) => r.strokeIds ?? []);
+  const reservedStrokeIds = [...allRingStrokeIds(rings), ...nestedRingStrokeIds];
   const classifications = [];
   const candidates = [];
 
